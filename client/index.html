@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Mind LMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      /* Navigation Accent Colors */
+      --nav-dashboard: #4f46e5;      /* Indigo */
+      --nav-quizzes: #f59e0b;        /* Amber / Gold */
+      --nav-music: #10b981;          /* Emerald Green */
+      --nav-iq: #ec4899;             /* Vibrant Pink */
+      --nav-mental: #8b5cf6;         /* Purple */
+      --nav-map: #06b6d4;            /* Cyan */
+
+      --bg-sidebar: #0f172a;         /* Dark Slate Sidebar */
+      --text-muted: #94a3b8;
+      --text-light: #f8fafc;
+      --text-dark: #0f172a;
+      
+      --content-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --player-color: #10b981;
+      --computer-color: #ef4444;
+
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--content-bg);
+      color: var(--text-dark);
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* WELCOME / LANDING PAGE SCREEN */
+    #welcomeScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 30%, #1e293b, #0f172a);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: var(--text-light);
+      text-align: center;
+      padding: 20px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #welcomeScreen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .welcome-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 48px 40px;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      max-width: 480px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .welcome-logo {
+      width: 88px;
+      height: 88px;
+      background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      color: white;
+      font-weight: 800;
+      font-size: 2.2rem;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    .welcome-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .welcome-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .btn-lets-go {
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      color: #ffffff;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-lets-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.5);
+      opacity: 0.95;
+    }
+
+    /* MAIN APP LAYOUT CONTAINER */
+    #appContainer {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* MULTI-COLOR SIDEBAR NAVIGATION */
+    aside {
+      width: 280px;
+      background-color: var(--bg-sidebar);
+      padding: 28px 18px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding-left: 8px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: white;
+      font-weight: 700;
+      font-size: 1.15rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text-light);
+      line-height: 1.2;
+    }
+
+    .brand-tagline {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background-color: transparent;
+      border: 1px solid transparent;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .nav-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: transform 0.25s ease, background-color 0.25s ease;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-item[data-tab="dashboard"] .nav-icon { color: var(--nav-dashboard); }
+    .nav-item[data-tab="dashboard"]:hover, .nav-item[data-tab="dashboard"].active {
+      background-color: rgba(79, 70, 229, 0.15);
+      border-color: rgba(79, 70, 229, 0.3);
+      color: #a5b4fc;
+    }
+    .nav-item[data-tab="dashboard"].active .nav-icon {
+      background-color: var(--nav-dashboard);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(79, 70, 229, 0.5);
+    }
+
+    .nav-item[data-tab="quizzes"] .nav-icon { color: var(--nav-quizzes); }
+    .nav-item[data-tab="quizzes"]:hover, .nav-item[data-tab="quizzes"].active {
+      background-color: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #fde68a;
+    }
+    .nav-item[data-tab="quizzes"].active .nav-icon {
+      background-color: var(--nav-quizzes);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+    }
+
+    .nav-item[data-tab="music"] .nav-icon { color: var(--nav-music); }
+    .nav-item[data-tab="music"]:hover, .nav-item[data-tab="music"].active {
+      background-color: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #a7f3d0;
+    }
+    .nav-item[data-tab="music"].active .nav-icon {
+      background-color: var(--nav-music);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    .nav-item[data-tab="iq"] .nav-icon { color: var(--nav-iq); }
+    .nav-item[data-tab="iq"]:hover, .nav-item[data-tab="iq"].active {
+      background-color: rgba(236, 72, 153, 0.15);
+      border-color: rgba(236, 72, 153, 0.3);
+      color: #fbcfe8;
+    }
+    .nav-item[data-tab="iq"].active .nav-icon {
+      background-color: var(--nav-iq);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.5);
+    }
+
+    .nav-item[data-tab="mental"] .nav-icon { color: var(--nav-mental); }
+    .nav-item[data-tab="mental"]:hover, .nav-item[data-tab="mental"].active {
+      background-color: rgba(139, 92, 246, 0.15);
+      border-color: rgba(139, 92, 246, 0.3);
+      color: #ddd6fe;
+    }
+    .nav-item[data-tab="mental"].active .nav-icon {
+      background-color: var(--nav-mental);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+    }
+
+    .nav-item[data-tab="map"] .nav-icon { color: var(--nav-map); }
+    .nav-item[data-tab="map"]:hover, .nav-item[data-tab="map"].active {
+      background-color: rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.3);
+      color: #a5f3fc;
+    }
+    .nav-item[data-tab="map"].active .nav-icon {
+      background-color: var(--nav-map);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+    }
+
+    .nav-item:hover .nav-icon { transform: scale(1.1); }
+
+    /* MAIN CONTENT AREA */
+    main {
+      flex: 1;
+      padding: 36px 40px;
+      overflow-y: auto;
+    }
+
+    .view-section {
+      display: none;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover { box-shadow: var(--shadow-md); }
+
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      color: var(--text-dark);
+      background-color: #ffffff;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--nav-dashboard);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    button, .btn {
+      width: 100%;
+      background-color: var(--nav-dashboard);
+      color: white;
+      border: none;
+      padding: 11px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    button:hover, .btn:hover {
+      opacity: 0.92;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .student-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .student-row:last-child { border-bottom: none; }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-risk { background-color: var(--danger-bg); color: var(--danger); }
+    .badge-safe { background-color: var(--success-bg); color: var(--success); }
+
+    pre {
+      background: #f1f5f9;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: #334155;
+      overflow-x: auto;
+    }
+
+    /* DICTIONARY SEARCH */
+    .dict-search-box {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .dict-search-box input { flex: 1; }
+    .dict-search-box button {
+      width: 130px;
+      flex-shrink: 0;
+      background-color: var(--nav-quizzes);
+    }
+
+    .dict-result-card {
+      background-color: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 15px;
+    }
+
+    .dict-word {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .dict-part-speech {
+      display: inline-block;
+      background-color: #e2e8f0;
+      color: #334155;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin: 10px 0;
+      text-transform: uppercase;
+    }
+
+    .dict-definition {
+      font-size: 0.95rem;
+      color: #334155;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .dict-example {
+      background-color: #ffffff;
+      border-left: 3px solid var(--nav-quizzes);
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      color: #475569;
+      font-style: italic;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* MUSIC THERAPY */
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .mood-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .mood-card:hover {
+      border-color: var(--nav-music);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .mood-card.active {
+      border-color: var(--nav-music);
+      background-color: #ecfdf5;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    }
+
+    .mood-emoji {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .mood-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .mood-freq-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--nav-music);
+      background: #d1fae5;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .mood-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .audio-player-panel {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: var(--text-light);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .audio-now-playing { text-align: center; }
+    .audio-now-playing h4 { font-size: 1.25rem; font-weight: 700; color: #ffffff; }
+    .audio-now-playing p { font-size: 0.88rem; color: #94a3b8; margin-top: 4px; }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .btn-play-sound {
+      background: var(--nav-music);
+      color: #ffffff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-play-sound:hover {
+      transform: scale(1.02);
+      opacity: 0.95;
+    }
+
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .volume-control input[type="range"] {
+      flex: 1;
+      accent-color: var(--nav-music);
+      cursor: pointer;
+    }
+
+    /* MCQ QUIZ */
+    .quiz-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .quiz-option-btn {
+      background-color: #f8fafc;
+      color: var(--text-dark);
+      border: 1px solid var(--border-color);
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .quiz-option-btn:hover {
+      border-color: var(--nav-quizzes);
+      background-color: #fffbebf0;
+    }
+
+    .quiz-option-btn.correct {
+      background-color: var(--success-bg) !important;
+      border-color: var(--success) !important;
+      color: var(--success) !important;
+      font-weight: 700;
+    }
+
+    .quiz-option-btn.incorrect {
+      background-color: var(--danger-bg) !important;
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
+    }
+
+    .explanation-box {
+      background-color: #f1f5f9;
+      border-left: 4px solid var(--nav-quizzes);
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      margin-top: 14px;
+    }
+
+    /* IQ GAMES */
+    .game-menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .game-card-select {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .game-card-select:hover {
+      border-color: var(--nav-iq);
+      transform: translateY(-2px);
+    }
+
+    .game-card-select.active {
+      border-color: var(--nav-iq);
+      background-color: #fdf2f8;
+    }
+
+    .game-card-select h4 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: var(--text-dark);
+    }
+
+    .game-card-select p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .scoreboard {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px;
+      background-color: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .score-box { text-align: center; font-weight: 600; }
+    .score-box .label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; }
+    .score-box .val { font-size: 1.4rem; color: var(--text-dark); }
+
+    .game-status-msg {
+      font-weight: 600;
+      font-size: 0.92rem;
+      margin-bottom: 15px;
+      height: 24px;
+      color: var(--text-dark);
+      text-align: center;
+    }
+
+    /* TIC-TAC-TOE */
+    .ttt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .ttt-cell {
+      width: 100px;
+      height: 100px;
+      background-color: #f8fafc;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    .ttt-cell.x-mark { color: var(--player-color); }
+    .ttt-cell.o-mark { color: var(--computer-color); }
+
+    /* MEMORY MATCH */
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 76px);
+      grid-gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .memory-card {
+      width: 76px;
+      height: 76px;
+      background-color: #f8fafc;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      user-select: none;
+    }
+
+    .memory-card.flipped { background-color: #ffffff; box-shadow: var(--shadow-sm); }
+
+    /* SPEED MATH & COLOR MATCH & SEQUENCE */
+    .math-display { font-size: 2.2rem; font-weight: 700; margin-bottom: 20px; }
+    .math-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 20px; }
+    .color-word { font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; }
+    .color-buttons { display: flex; gap: 12px; width: 100%; margin-bottom: 20px; }
+
+    .seq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 100px);
+      grid-gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .seq-btn {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+
+    .seq-btn.active-flash { opacity: 1 !important; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+    #seq-0 { background-color: #ef4444; }
+    #seq-1 { background-color: #10b981; }
+    #seq-2 { background-color: #3b82f6; }
+    #seq-3 { background-color: #f59e0b; }
+
+    .game-view { display: none; }
+    .game-view.active { display: block; }
+
+    /* MAP FLOWCHART CONTAINER */
+    .map-flowchart-container {
+      margin-top: 16px;
+      padding: 20px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      text-align: center;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .map-btn { background-color: var(--nav-map); }
+
+    .ai-insights-box {
+      margin-top: 15px;
+      padding: 16px;
+      background: #ecfeff;
+      border: 1px solid #a5f3fc;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .ai-insights-box h4 {
+      color: #0e7490;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .ai-insights-box p {
+      font-size: 0.88rem;
+      color: #164e63;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="welcomeScreen">
+    <div class="welcome-card">
+      <div class="welcome-logo">BM</div>
+      <h1 class="welcome-title">Blue Mind LMS</h1>
+      <p class="welcome-subtitle">Learn, play, breathe, and grow with your personal AI-driven cognitive dashboard.</p>
+      <button class="btn-lets-go" onclick="launchWebsite()">
+        Let's Go! ➔
+      </button>
+    </div>
+  </div>
+
+  <div id="appContainer">
+    <aside>
+      <div class="brand-header">
+        <div class="brand-logo">BM</div>
+        <div>
+          <div class="brand-title">Blue Mind LMS</div>
+          <div class="brand-tagline">Learn, play, breathe, grow</div>
+        </div>
+      </div>
+
+      <ul class="nav-list">
+        <li class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard', this)">
+          <div class="nav-icon">📊</div>
+          <span>Dashboard</span>
+        </li>
+        <li class="nav-item" data-tab="quizzes" onclick="switchTab('quizzes', this)">
+          <div class="nav-icon">🎯</div>
+          <span>Fun MCQ Quizzes</span>
+        </li>
+        <li class="nav-item" data-tab="music" onclick="switchTab('music', this)">
+          <div class="nav-icon">🎵</div>
+          <span>Music Therapy</span>
+        </li>
+        <li class="nav-item" data-tab="iq" onclick="switchTab('iq', this)">
+          <div class="nav-icon">🧩</div>
+          <span>IQ Games</span>
+        </li>
+        <li class="nav-item" data-tab="mental" onclick="switchTab('mental', this)">
+          <div class="nav-icon">🧠</div>
+          <span>Mental Assessment</span>
+        </li>
+        <li class="nav-item" data-tab="map" onclick="switchTab('map', this)">
+          <div class="nav-icon">🗺️</div>
+          <span>MAP Method</span>
+        </li>
+      </ul>
+    </aside>
+
+    <main>
+      <!-- DASHBOARD TAB -->
+      <div id="dashboard" class="view-section active">
+        <h1>Dashboard & Analytics</h1>
+        <p class="page-subtitle">Predictive Academic & Mental Health Intelligence Engine</p>
+
+        <div class="grid-layout">
+          <div class="card">
+            <h3>Evaluate Student</h3>
+            <form id="evalForm" onsubmit="runFcmEvaluation(event)">
+              <div class="form-group">
+                <label>Student ID</label>
+                <input type="text" id="studentId" value="S103" required />
+              </div>
+              <div class="form-group">
+                <label>Quiz 1 Score (Max: 10)</label>
+                <input type="number" id="quizScore" step="0.5" value="4.0" required />
+              </div>
+              <div class="form-group">
+                <label>Practical Test 1 (Max: 20)</label>
+                <input type="number" id="practicalScore" step="0.5" value="8.0" required />
+              </div>
+              <div class="form-group">
+                <label>Assignment 1 Score (Max: 15)</label>
+                <input type="number" id="assignmentScore" step="0.5" value="6.0" required />
+              </div>
+              <button type="submit">Run Prediction</button>
+            </form>
+          </div>
+
+          <div>
+            <div class="card">
+              <h3>Cohort Risk Predictions</h3>
+              <div id="cohortContainer">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Run prediction to compute scores.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Constructive Alignment Advisories</h3>
+              <div id="interventionContainer">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">No active advisories.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>FCM State Vector</h3>
+              <pre id="fcmContainer">// Kosko FCM output</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUIZZES TAB -->
+      <div id="quizzes" class="view-section">
+        <h1>Fun MCQ Quizzes & Word Lookup</h1>
+        <p class="page-subtitle">Test your knowledge with AI-generated quizzes or look up any word for instant definitions.</p>
+
+        <div class="card">
+          <h3>Smart Dictionary & Word Explainer</h3>
+          <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.88rem;">
+            Enter any word (e.g., "mango") to see its category, definition, and practical example sentence.
+          </p>
+
+          <div class="dict-search-box">
+            <input type="text" id="dictInput" placeholder="e.g. mango, apple, resilience, algorithm..." onkeyup="if(event.key==='Enter') lookupWordMeaning()" />
+            <button onclick="lookupWordMeaning()">Search Word</button>
+          </div>
+
+          <div id="dictOutputContainer"></div>
+        </div>
+
+        <div class="card">
+          <h3>AI-Powered Adaptive Quiz Engine</h3>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
+            Select a subject to dynamically generate interactive MCQ questions with immediate feedback and AI explanations.
+          </p>
+          
+          <div class="form-group" style="display: flex; gap: 12px; align-items: center;">
+            <select id="quizTopicSelect" style="flex: 1;">
+              <option value="science">General Science & Physics</option>
+              <option value="cs">Computer Science & AI Basics</option>
+              <option value="mental">Cognitive Psychology & Mind</option>
+              <option value="math">Logic & Mathematics</option>
+            </select>
+            <button style="width: 160px; background-color: var(--nav-quizzes);" onclick="generateAIQuiz()">Generate Question</button>
+          </div>
+
+          <div id="quizContainer" style="margin-top: 20px;">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Click "Generate Question" to start your quiz.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUSIC THERAPY TAB -->
+      <div id="music" class="view-section">
+        <h1>Frequency Sound & Mood Therapy</h1>
+        <p class="page-subtitle">Select your current emotional state to play scientifically tuned audio frequencies designed to restore calm and focus.</p>
+
+        <div class="mood-grid">
+          <div class="mood-card active" onclick="selectMood('stress', this)">
+            <div class="mood-emoji">🧘‍♀️</div>
+            <div class="mood-title">Stressed / Anxious</div>
+            <div class="mood-freq-badge">432 Hz Solfeggio</div>
+            <div class="mood-desc">Reduces stress, lowers heart rate, and promotes deep physical relaxation.</div>
+          </div>
+
+          <div class="mood-card" onclick="selectMood('focus', this)">
+            <div class="mood-emoji">🎯</div>
+            <div class="mood-title">Unfocused / Distracted</div>
+            <div class="mood-freq-badge">528 Hz Focus Tone</div>
+            <div class="mood-desc">Enhances mental clarity, concentration, and cognitive problem-solving.</div>
+          </div>
+
+          <div class="mood-card" onclick="selectMood('fatigue', this)">
+            <div class="mood-emoji">⚡</div>
+            <div class="mood-title">Exhausted / Low Energy</div>
+            <div class="mood-freq-badge">639 Hz Energy Wave</div>
+            <div class="mood-desc">Harmonizes neural energy, boosts mood, and reduces mental fatigue.</div>
+          </div>
+
+          <div class="mood-card" onclick="selectMood('sleep', this)">
+            <div class="mood-emoji">🌙</div>
+            <div class="mood-title">Overthinking / Restless</div>
+            <div class="mood-freq-badge">174 Hz Deep Calm</div>
+            <div class="mood-desc">Provides a natural soothing effect, relieving mental tension for quiet rest.</div>
+          </div>
+        </div>
+
+        <div class="audio-player-panel">
+          <div class="audio-now-playing">
+            <h4 id="audioMoodTitle">432 Hz Healing Solfeggio Frequency</h4>
+            <p id="audioMoodDesc">Active Preset: Natural harmonic tone for anxiety reduction and emotional grounding.</p>
+          </div>
+
+          <div class="audio-controls">
+            <button id="playAudioBtn" class="btn-play-sound" onclick="toggleAudioFrequency()">
+              <span id="playIcon">▶</span> <span id="playText">Play Frequency Sound</span>
+            </button>
+          </div>
+
+          <div class="volume-control">
+            <span>🔊 Volume</span>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.3" oninput="changeVolume(this.value)" />
+          </div>
+        </div>
+      </div>
+
+      <!-- IQ GAMES TAB -->
+      <div id="iq" class="view-section">
+        <h1>IQ & Cognitive Games</h1>
+        <p class="page-subtitle">Select a cognitive training game to enhance memory, speed, and logic.</p>
+        
+        <div class="game-menu-grid">
+          <div class="game-card-select active" onclick="selectIQGame('game-ttt', this)">
+            <h4>1. Tic-Tac-Toe vs AI</h4>
+            <p>Logic & Strategy</p>
+          </div>
+          <div class="game-card-select" onclick="selectIQGame('game-memory', this)">
+            <h4>2. Memory Match</h4>
+            <p>Visual Recall</p>
+          </div>
+          <div class="game-card-select" onclick="selectIQGame('game-math', this)">
+            <h4>3. Speed Math</h4>
+            <p>Processing Speed</p>
+          </div>
+          <div class="game-card-select" onclick="selectIQGame('game-color', this)">
+            <h4>4. Color Match</h4>
+            <p>Focus & Stroop Test</p>
+          </div>
+          <div class="game-card-select" onclick="selectIQGame('game-seq', this)">
+            <h4>5. Pattern Sequence</h4>
+            <p>Working Memory</p>
+          </div>
+        </div>
+
+        <!-- 1. Tic-Tac-Toe -->
+        <div id="game-ttt" class="game-view active card">
+          <h3>1. Tic-Tac-Toe vs AI</h3>
+          <div class="game-container">
+            <div class="scoreboard">
+              <div class="score-box"><div class="label">Player (X)</div><div class="val" id="ttt-p-score">0</div></div>
+              <div class="score-box"><div class="label">AI (O)</div><div class="val" id="ttt-c-score">0</div></div>
+            </div>
+            <div class="game-status-msg" id="ttt-status">Your Turn (X)</div>
+            <div class="ttt-grid" id="ttt-board"></div>
+            <button onclick="resetTTT()">Restart Match</button>
+          </div>
+        </div>
+
+        <!-- 2. Memory Match -->
+        <div id="game-memory" class="game-view card">
+          <h3>2. Memory Match</h3>
+          <div class="game-container">
+            <div class="scoreboard">
+              <div class="score-box"><div class="label">Pairs Found</div><div class="val" id="mem-pairs">0 / 4</div></div>
+              <div class="score-box"><div class="label">Moves</div><div class="val" id="mem-moves">0</div></div>
+            </div>
+            <div class="game-status-msg" id="mem-status">Find matching icon pairs!</div>
+            <div class="memory-grid" id="memory-board"></div>
+            <button onclick="initMemoryGame()">New Game</button>
+          </div>
+        </div>
+
+        <!-- 3. Speed Math -->
+        <div id="game-math" class="game-view card">
+          <h3>3. Speed Math</h3>
+          <div class="game-container">
+            <div class="scoreboard">
+              <div class="score-box"><div class="label">Score</div><div class="val" id="math-score">0</div></div>
+              <div class="score-box"><div class="label">Time Left</div><div class="val" id="math-timer">15s</div></div>
+            </div>
+            <div class="game-status-msg" id="math-status">Solve as many as possible!</div>
+            <div class="math-display" id="math-prompt">? + ?</div>
+            <div class="math-options" id="math-opts"></div>
+            <button onclick="startMathGame()">Start Speed Math</button>
+          </div>
+        </div>
+
+        <!-- 4. Color Match -->
+        <div id="game-color" class="game-view card">
+          <h3>4. Color Match (Stroop Test)</h3>
+          <div class="game-container">
+            <div class="scoreboard">
+              <div class="score-box"><div class="label">Score</div><div class="val" id="color-score">0</div></div>
+            </div>
+            <div class="game-status-msg" id="color-status">Does text color match word name?</div>
+            <div class="color-word" id="color-word-display">COLOR</div>
+            <div class="color-buttons">
+              <button style="background:#10b981;" onclick="checkColorAnswer(true)">Match (YES)</button>
+              <button style="background:#ef4444;" onclick="checkColorAnswer(false)">Mismatch (NO)</button>
+            </div>
+            <button onclick="initColorGame()">Start Stroop Test</button>
+          </div>
+        </div>
+
+        <!-- 5. Pattern Sequence -->
+        <div id="game-seq" class="game-view card">
+          <h3>5. Pattern Sequence</h3>
+          <div class="game-container">
+            <div class="scoreboard">
+              <div class="score-box"><div class="label">Current Level</div><div class="val" id="seq-level">0</div></div>
+            </div>
+            <div class="game-status-msg" id="seq-status">Memorize the glowing sequence!</div>
+            <div class="seq-grid">
+              <div class="seq-btn" id="seq-0" onclick="handleSeqClick(0)"></div>
+              <div class="seq-btn" id="seq-1" onclick="handleSeqClick(1)"></div>
+              <div class="seq-btn" id="seq-2" onclick="handleSeqClick(2)"></div>
+              <div class="seq-btn" id="seq-3" onclick="handleSeqClick(3)"></div>
+            </div>
+            <button onclick="startSeqGame()">Start Sequence</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MENTAL ASSESSMENT TAB -->
+      <div id="mental" class="view-section">
+        <h1>Mental Well-being Assessment</h1>
+        <p class="page-subtitle">A standardized wellness evaluation to measure stress and emotional balance.</p>
+
+        <div class="card">
+          <h3>Self-Reflection Questionnaire</h3>
+          <form id="mentalForm" onsubmit="evaluateMentalHealth(event)">
+            <div class="form-group">
+              <label>1. Over the last week, how often have you felt overwhelmed by academic tasks?</label>
+              <select id="m1">
+                <option value="0">Never or rarely</option>
+                <option value="1">Several days</option>
+                <option value="2">More than half the days</option>
+                <option value="3">Nearly every day</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>2. How often do you find it difficult to concentrate on studying or reading?</label>
+              <select id="m2">
+                <option value="0">Never or rarely</option>
+                <option value="1">Several days</option>
+                <option value="2">More than half the days</option>
+                <option value="3">Nearly every day</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>3. How would you rate your sleep quality over the past few nights?</label>
+              <select id="m3">
+                <option value="0">Restful and sufficient</option>
+                <option value="1">Mildly disturbed</option>
+                <option value="2">Frequently restless</option>
+                <option value="3">Severely interrupted / Insomnia</option>
+              </select>
+            </div>
+            <button type="submit" style="background-color: var(--nav-mental);">Analyze Well-being Index</button>
+          </form>
+
+          <div id="mentalResultContainer" style="margin-top: 20px;"></div>
+        </div>
+      </div>
+
+      <!-- MAP METHOD TAB (NO API KEY NEEDED) -->
+      <div id="map" class="view-section">
+        <h1>MAP (Mastery & Action Plan) Visualizer</h1>
+        <p class="page-subtitle">Paste any study paragraph or module topic to instantly generate visual flowcharts.</p>
+
+        <div class="card">
+          <h3>1. Enter Study Content</h3>
+
+          <div class="form-group">
+            <label>Diagram Style</label>
+            <select id="diagramType">
+              <option value="flowchart">Flowchart / Process Sequence</option>
+              <option value="mindmap">Concept Map / Core Hierarchy</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Study Paragraph / Raw Material</label>
+            <textarea id="studyParagraph" rows="6" placeholder="Paste your study material, paragraph, or lesson content here... (e.g., Photosynthesis converts light into energy. First, sunlight is absorbed by chlorophyll. Next, water molecules are split into oxygen and hydrogen. Finally, carbon dioxide is converted into glucose.)"></textarea>
+          </div>
+
+          <button class="map-btn" onclick="generateDynamicDiagram()">✨ Generate Visual Chart</button>
+        </div>
+
+        <div class="card">
+          <h3>2. Visualized Chart</h3>
+          <div class="map-flowchart-container" id="flowchartWrapper">
+            <div id="mermaidDiagram">
+              <p style="color: var(--text-muted);">Your generated visual flowchart will appear here.</p>
+            </div>
+          </div>
+
+          <div class="ai-insights-box" id="mapInsights">
+            <h4>💡 AI Learning Summary</h4>
+            <p id="aiSummaryText">Paste study notes above and click generate to view key summary points and flow visualization.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // INITIALIZATION & TAB NAVIGATION
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+
+    function launchWebsite() {
+      document.getElementById('welcomeScreen').classList.add('hidden');
+    }
+
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      element.classList.add('active');
+
+      if (tabId === 'iq') {
+        initTTT();
+        initMemoryGame();
+      }
+    }
+
+    // DASHBOARD & KOSKO FCM LOGIC
+    function runFcmEvaluation(e) {
+      e.preventDefault();
+      const q = parseFloat(document.getElementById('quizScore').value) / 10;
+      const p = parseFloat(document.getElementById('practicalScore').value) / 20;
+      const a = parseFloat(document.getElementById('assignmentScore').value) / 15;
+
+      const c1_prep = (q + p + a) / 3;
+      const c2_stress = Math.max(0, 1 - c1_prep * 0.9);
+      const c3_risk = Math.max(0, 0.85 - c1_prep * 0.75 + c2_stress * 0.2);
+
+      const isRisk = c3_risk > 0.45;
+
+      document.getElementById('cohortContainer').innerHTML = `
+        <div class="student-row">
+          <div>
+            <strong>Student ${document.getElementById('studentId').value}</strong>
+            <div style="font-size:0.8rem; color: var(--text-muted);">Overall Mastery: ${(c1_prep * 100).toFixed(1)}%</div>
+          </div>
+          <span class="badge ${isRisk ? 'badge-risk' : 'badge-safe'}">
+            ${isRisk ? 'AT RISK' : 'ON TRACK'}
+          </span>
+        </div>
+      `;
+
+      document.getElementById('interventionContainer').innerHTML = isRisk ? `
+        <p style="color: var(--danger); font-size: 0.9rem; font-weight:600;">⚠️ Academic Intervention Advised:</p>
+        <p style="font-size:0.85rem; color:#475569; margin-top:4px;">
+          Low engagement detected across quizzes and assignments. Recommend scheduling a 1-on-1 tutoring session and 528 Hz Focus Therapy.
+        </p>
+      ` : `
+        <p style="color: var(--success); font-size: 0.9rem; font-weight:600;">✅ Student Progress Healthy:</p>
+        <p style="font-size:0.85rem; color:#475569; margin-top:4px;">
+          Student is meeting all learning benchmarks. Maintain current learning pace.
+        </p>
+      `;
+
+      document.getElementById('fcmContainer').innerText = JSON.stringify({
+        "C1_Preparation": parseFloat(c1_prep.toFixed(3)),
+        "C2_MentalStress": parseFloat(c2_stress.toFixed(3)),
+        "C3_AcademicRisk": parseFloat(c3_risk.toFixed(3)),
+        "System_State": isRisk ? "INTERVENTION_REQUIRED" : "STABLE"
+      }, null, 2);
+    }
+
+    // DICTIONARY LOOKUP
+    const localDict = {
+      "mango": { pos: "noun", def: "A tropical fruit with smooth yellow-red skin, sweet juicy orange flesh, and a large seed.", ex: "She enjoyed a fresh mango smoothie on a warm afternoon." },
+      "apple": { pos: "noun", def: "A round edible fruit with red, yellow, or green skin and firm crisp flesh.", ex: "An apple a day keeps the doctor away." },
+      "resilience": { pos: "noun", def: "The capacity to withstand or recover quickly from difficult conditions.", ex: "His emotional resilience helped him navigate academic pressures successfully." },
+      "algorithm": { pos: "noun", def: "A process or set of rules to be followed in calculations or problem-solving operations.", ex: "The AI platform uses a sorting algorithm to prioritize study goals." }
+    };
+
+    function lookupWordMeaning() {
+      const input = document.getElementById('dictInput').value.trim().toLowerCase();
+      const container = document.getElementById('dictOutputContainer');
+      
+      if (!input) {
+        container.innerHTML = `<p style="color:var(--text-muted);">Please enter a word.</p>`;
+        return;
+      }
+
+      if (localDict[input]) {
+        const data = localDict[input];
+        container.innerHTML = `
+          <div class="dict-result-card">
+            <div class="dict-word">${input}</div>
+            <span class="dict-part-speech">${data.pos}</span>
+            <div class="dict-definition">${data.def}</div>
+            <div class="dict-example">"${data.ex}"</div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="dict-result-card">
+            <div class="dict-word">${input}</div>
+            <span class="dict-part-speech">Vocabulary Entry</span>
+            <div class="dict-definition">A concept or term queried within the Blue Mind learning repository.</div>
+            <div class="dict-example">"Exploring definitions for '${input}' strengthens linguistic awareness."</div>
+          </div>
+        `;
+      }
+    }
+
+    // AI MCQ QUIZ GENERATOR
+    const quizBank = {
+      science: [
+        { q: "What is the speed of light in a vacuum?", opts: ["300,000 km/s", "150,000 km/s", "1,000,000 km/s", "3,000 km/s"], ans: 0, exp: "Light travels at approximately 299,792 kilometers per second in a vacuum." },
+        { q: "Which element has the atomic number 1?", opts: ["Helium", "Oxygen", "Hydrogen", "Carbon"], ans: 2, exp: "Hydrogen is the lightest and most abundant chemical element in the universe." }
+      ],
+      cs: [
+        { q: "What does CPU stand for?", opts: ["Central Process Unit", "Central Processing Unit", "Computer Personal Unit", "Central Peripheral Unit"], ans: 1, exp: "CPU stands for Central Processing Unit, the primary component that executes instructions." },
+        { q: "Which data structure operates on a First-In, First-Out (FIFO) basis?", opts: ["Stack", "Queue", "Tree", "Graph"], ans: 1, exp: "A Queue processes elements in exact arrival order (FIFO)." }
+      ],
+      mental: [
+        { q: "What frequency is known as the 'Solfeggio Miracle Tone' for stress reduction?", opts: ["432 Hz", "528 Hz", "100 Hz", "1000 Hz"], ans: 1, exp: "528 Hz is widely associated with mental clarity, repair, and stress relief." }
+      ],
+      math: [
+        { q: "What is the derivative of x² with respect to x?", opts: ["x", "2x", "x²", "2"], ans: 1, exp: "By the power rule, d/dx(x^n) = n*x^(n-1). Thus, d/dx(x²) = 2x." }
+      ]
+    };
+
+    function generateAIQuiz() {
+      const topic = document.getElementById('quizTopicSelect').value;
+      const questions = quizBank[topic] || quizBank.science;
+      const qData = questions[Math.floor(Math.random() * questions.length)];
+
+      let html = `
+        <div style="font-weight:700; font-size:1.05rem; margin-bottom:12px;">${qData.q}</div>
+        <div class="quiz-options-list">
+      `;
+
+      qData.opts.forEach((opt, idx) => {
+        html += `<button class="quiz-option-btn" onclick="checkQuizAnswer(this, ${idx}, ${qData.ans}, '${qData.exp.replace(/'/g, "\\'")}')">${opt}</button>`;
+      });
+
+      html += `</div><div id="quizExpBox"></div>`;
+      document.getElementById('quizContainer').innerHTML = html;
+    }
+
+    function checkQuizAnswer(btn, selected, correct, exp) {
+      const parent = btn.parentElement;
+      const btns = parent.querySelectorAll('.quiz-option-btn');
+      btns.forEach((b, idx) => {
+        b.disabled = true;
+        if (idx === correct) b.classList.add('correct');
+        else if (idx === selected) b.classList.add('incorrect');
+      });
+
+      document.getElementById('quizExpBox').innerHTML = `
+        <div class="explanation-box">
+          <strong>💡 AI Explanation:</strong> ${exp}
+        </div>
+      `;
+    }
+
+    // AUDIO FREQUENCY SYNTHESIZER (WEB AUDIO API)
+    let audioCtx = null;
+    let oscillator = null;
+    let gainNode = null;
+    let isPlaying = false;
+    let currentFreq = 432;
+
+    const moodPresets = {
+      stress: { freq: 432, title: "432 Hz Healing Solfeggio Frequency", desc: "Active Preset: Natural harmonic tone for anxiety reduction and emotional grounding." },
+      focus: { freq: 528, title: "528 Hz Clarity & Focus Tone", desc: "Active Preset: Enhances mental focus and cognitive problem-solving." },
+      fatigue: { freq: 639, title: "639 Hz Energy Harmonizer Wave", desc: "Active Preset: Balances neural energy and alleviates brain fog." },
+      sleep: { freq: 174, title: "174 Hz Deep Tranquility Frequency", desc: "Active Preset: Anesthetic natural frequency for deep mental relaxation." }
+    };
+
+    function selectMood(key, card) {
+      document.querySelectorAll('.mood-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+
+      const preset = moodPresets[key];
+      currentFreq = preset.freq;
+      document.getElementById('audioMoodTitle').innerText = preset.title;
+      document.getElementById('audioMoodDesc').innerText = preset.desc;
+
+      if (isPlaying) {
+        oscillator.frequency.setValueAtTime(currentFreq, audioCtx.currentTime);
+      }
+    }
+
+    function toggleAudioFrequency() {
+      if (isPlaying) {
+        stopAudio();
+      } else {
+        startAudio();
+      }
+    }
+
+    function startAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      oscillator = audioCtx.createOscillator();
+      gainNode = audioCtx.createGain();
+
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(currentFreq, audioCtx.currentTime);
+
+      const vol = parseFloat(document.getElementById('volumeSlider').value);
+      gainNode.gain.setValueAtTime(vol, audioCtx.currentTime);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start();
+      isPlaying = true;
+
+      document.getElementById('playIcon').innerText = "⏸";
+      document.getElementById('playText').innerText = "Pause Frequency Sound";
+    }
+
+    function stopAudio() {
+      if (oscillator) {
+        oscillator.stop();
+        oscillator.disconnect();
+      }
+      isPlaying = false;
+      document.getElementById('playIcon').innerText = "▶";
+      document.getElementById('playText').innerText = "Play Frequency Sound";
+    }
+
+    function changeVolume(val) {
+      if (gainNode && audioCtx) {
+        gainNode.gain.setValueAtTime(parseFloat(val), audioCtx.currentTime);
+      }
+    }
+
+    // IQ GAMES CONTROLLER
+    function selectIQGame(gameId, card) {
+      document.querySelectorAll('.game-card-select').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.game-view').forEach(v => v.classList.remove('active'));
+
+      card.classList.add('active');
+      document.getElementById(gameId).classList.add('active');
+
+      if (gameId === 'game-ttt') initTTT();
+      if (gameId === 'game-memory') initMemoryGame();
+      if (gameId === 'game-math') startMathGame();
+      if (gameId === 'game-color') initColorGame();
+      if (gameId === 'game-seq') startSeqGame();
+    }
+
+    // GAME 1: TIC TAC TOE
+    let tttBoard = Array(9).fill(null);
+    let tttPScore = 0, tttCScore = 0;
+    let tttActive = true;
+
+    function initTTT() {
+      tttBoard = Array(9).fill(null);
+      tttActive = true;
+      document.getElementById('ttt-status').innerText = "Your Turn (X)";
+      const container = document.getElementById('ttt-board');
+      container.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'ttt-cell';
+        cell.onclick = () => makeTTTMove(i);
+        container.appendChild(cell);
+      }
+    }
+
+    function resetTTT() { initTTT(); }
+
+    function makeTTTMove(i) {
+      if (!tttBoard[i] && tttActive) {
+        tttBoard[i] = 'X';
+        renderTTT();
+        if (checkTTTWin('X')) {
+          document.getElementById('ttt-status').innerText = "🎉 You Win!";
+          tttPScore++;
+          document.getElementById('ttt-p-score').innerText = tttPScore;
+          tttActive = false;
+          return;
+        }
+        if (tttBoard.every(c => c)) {
+          document.getElementById('ttt-status').innerText = "Match Draw!";
+          tttActive = false;
+          return;
+        }
+        
+        tttActive = false;
+        document.getElementById('ttt-status').innerText = "AI is thinking...";
+        setTimeout(aiTTTMove, 400);
+      }
+    }
+
+    function aiTTTMove() {
+      const empty = tttBoard.map((v, i) => v === null ? i : null).filter(v => v !== null);
+      if (empty.length > 0) {
+        const choice = empty[Math.floor(Math.random() * empty.length)];
+        tttBoard[choice] = 'O';
+        renderTTT();
+        if (checkTTTWin('O')) {
+          document.getElementById('ttt-status').innerText = "🤖 AI Wins!";
+          tttCScore++;
+          document.getElementById('ttt-c-score').innerText = tttCScore;
+          return;
+        }
+      }
+      tttActive = true;
+      document.getElementById('ttt-status').innerText = "Your Turn (X)";
+    }
+
+    function checkTTTWin(p) {
+      const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      return wins.some(w => w.every(idx => tttBoard[idx] === p));
+    }
+
+    function renderTTT() {
+      const cells = document.querySelectorAll('.ttt-cell');
+      tttBoard.forEach((v, i) => {
+        cells[i].innerText = v || '';
+        cells[i].className = 'ttt-cell ' + (v === 'X' ? 'x-mark' : v === 'O' ? 'o-mark' : '');
+      });
+    }
+
+    // GAME 2: MEMORY MATCH
+    const icons = ['🌟', '🍎', '🧩', '🚀', '🌟', '🍎', '🧩', '🚀'];
+    let flippedCards = [], matchedPairs = 0, memMoves = 0;
+
+    function initMemoryGame() {
+      const board = document.getElementById('memory-board');
+      board.innerHTML = '';
+      flippedCards = [];
+      matchedPairs = 0;
+      memMoves = 0;
+      document.getElementById('mem-pairs').innerText = "0 / 4";
+      document.getElementById('mem-moves').innerText = "0";
+      document.getElementById('mem-status').innerText = "Find matching icon pairs!";
+
+      const shuffled = [...icons].sort(() => Math.random() - 0.5);
+      shuffled.forEach((icon, i) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.icon = icon;
+        card.onclick = () => flipMemCard(card);
+        board.appendChild(card);
+      });
+    }
+
+    function flipMemCard(card) {
+      if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
+        card.classList.add('flipped');
+        card.innerText = card.dataset.icon;
+        flippedCards.push(card);
+
+        if (flippedCards.length === 2) {
+          memMoves++;
+          document.getElementById('mem-moves').innerText = memMoves;
+          if (flippedCards[0].dataset.icon === flippedCards[1].dataset.icon) {
+            matchedPairs++;
+            document.getElementById('mem-pairs').innerText = `${matchedPairs} / 4`;
+            flippedCards = [];
+            if (matchedPairs === 4) {
+              document.getElementById('mem-status').innerText = "🎉 Brilliant Memory!";
+            }
+          } else {
+            setTimeout(() => {
+              flippedCards.forEach(c => { c.classList.remove('flipped'); c.innerText = ''; });
+              flippedCards = [];
+            }, 700);
+          }
+        }
+      }
+    }
+
+    // GAME 3: SPEED MATH
+    let mathScore = 0, mathTimer = null, mathTimeLeft = 15, currentAns = 0;
+
+    function startMathGame() {
+      mathScore = 0;
+      mathTimeLeft = 15;
+      document.getElementById('math-score').innerText = mathScore;
+      document.getElementById('math-timer').innerText = mathTimeLeft + 's';
+      document.getElementById('math-status').innerText = "Solve quickly!";
+      
+      clearInterval(mathTimer);
+      mathTimer = setInterval(() => {
+        mathTimeLeft--;
+        document.getElementById('math-timer').innerText = mathTimeLeft + 's';
+        if (mathTimeLeft <= 0) {
+          clearInterval(mathTimer);
+          document.getElementById('math-status').innerText = `⏰ Time's up! Final Score: ${mathScore}`;
+        }
+      }, 1000);
+
+      nextMathProblem();
+    }
+
+    function nextMathProblem() {
+      const a = Math.floor(Math.random() * 12) + 1;
+      const b = Math.floor(Math.random() * 12) + 1;
+      currentAns = a + b;
+      document.getElementById('math-prompt').innerText = `${a} + ${b} = ?`;
+
+      const opts = [currentAns, currentAns + 2, Math.max(1, currentAns - 3), currentAns + 5].sort(() => Math.random() - 0.5);
+      const optContainer = document.getElementById('math-opts');
+      optContainer.innerHTML = '';
+      opts.forEach(o => {
+        const btn = document.createElement('button');
+        btn.innerText = o;
+        btn.onclick = () => {
+          if (o === currentAns) mathScore += 10;
+          document.getElementById('math-score').innerText = mathScore;
+          nextMathProblem();
+        };
+        optContainer.appendChild(btn);
+      });
+    }
+
+    // GAME 4: COLOR MATCH
+    const colorNames = ['RED', 'GREEN', 'BLUE', 'AMBER'];
+    const colorCodes = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b'];
+    let currentColorMatch = false, colorScore = 0;
+
+    function initColorGame() {
+      colorScore = 0;
+      document.getElementById('color-score').innerText = colorScore;
+      document.getElementById('color-status').innerText = "Does text color match word name?";
+      nextColorRound();
+    }
+
+    function nextColorRound() {
+      const wordIdx = Math.floor(Math.random() * colorNames.length);
+      const colorIdx = Math.floor(Math.random() * colorCodes.length);
+      
+      currentColorMatch = (wordIdx === colorIdx);
+      const display = document.getElementById('color-word-display');
+      display.innerText = colorNames[wordIdx];
+      display.style.color = colorCodes[colorIdx];
+    }
+
+    function checkColorAnswer(userSaysYes) {
+      if (userSaysYes === currentColorMatch) {
+        colorScore += 5;
+        document.getElementById('color-status').innerText = "✅ Correct!";
+      } else {
+        document.getElementById('color-status').innerText = "❌ Incorrect!";
+      }
+      document.getElementById('color-score').innerText = colorScore;
+      nextColorRound();
+    }
+
+    // GAME 5: PATTERN SEQUENCE
+    let seqPattern = [], userSeq = [], seqLevel = 0;
+
+    function startSeqGame() {
+      seqPattern = [];
+      userSeq = [];
+      seqLevel = 0;
+      document.getElementById('seq-level').innerText = seqLevel;
+      nextSeqRound();
+    }
+
+    function nextSeqRound() {
+      userSeq = [];
+      seqLevel++;
+      document.getElementById('seq-level').innerText = seqLevel;
+      document.getElementById('seq-status').innerText = "Watch sequence...";
+      seqPattern.push(Math.floor(Math.random() * 4));
+
+      let i = 0;
+      const interval = setInterval(() => {
+        flashSeqBtn(seqPattern[i]);
+        i++;
+        if (i >= seqPattern.length) {
+          clearInterval(interval);
+          document.getElementById('seq-status').innerText = "Repeat the sequence!";
+        }
+      }, 600);
+    }
+
+    function flashSeqBtn(idx) {
+      const btn = document.getElementById(`seq-${idx}`);
+      btn.classList.add('active-flash');
+      setTimeout(() => btn.classList.remove('active-flash'), 300);
+    }
+
+    function handleSeqClick(idx) {
+      flashSeqBtn(idx);
+      userSeq.push(idx);
+
+      const currentStep = userSeq.length - 1;
+      if (userSeq[currentStep] !== seqPattern[currentStep]) {
+        document.getElementById('seq-status').innerText = `💥 Game Over! Reached Level ${seqLevel}`;
+        return;
+      }
+
+      if (userSeq.length === seqPattern.length) {
+        document.getElementById('seq-status').innerText = "✅ Perfect! Next round...";
+        setTimeout(nextSeqRound, 800);
+      }
+    }
+
+    // MENTAL WELL-BEING ASSESSMENT LOGIC
+    function evaluateMentalHealth(e) {
+      e.preventDefault();
+      const m1 = parseInt(document.getElementById('m1').value);
+      const m2 = parseInt(document.getElementById('m2').value);
+      const m3 = parseInt(document.getElementById('m3').value);
+
+      const total = m1 + m2 + m3;
+      let level = "Balanced", color = "var(--success)", desc = "Your response indicates sound mental equilibrium and manageable stress levels.";
+
+      if (total >= 6) {
+        level = "High Stress Detected";
+        color = "var(--danger)";
+        desc = "High cognitive stress levels detected. Recommend 432 Hz Music Therapy and taking structured study breaks.";
+      } else if (total >= 3) {
+        level = "Moderate Fatigue";
+        color = "var(--nav-quizzes)";
+        desc = "Mild cognitive strain observed. Consider relaxing with IQ games or short mindfulness exercises.";
+      }
+
+      document.getElementById('mentalResultContainer').innerHTML = `
+        <div style="background:#f8fafc; border-left: 4px solid ${color}; padding:16px; border-radius:8px;">
+          <h4 style="color:${color}; margin-bottom:6px;">Index State: ${level} (Score: ${total}/9)</h4>
+          <p style="font-size:0.9rem; color:#334155;">${desc}</p>
+        </div>
+      `;
+    }
+
+    // BROWSER-NATIVE DYNAMIC MAP METHOD FLOWCHART GENERATOR (NO API KEY REQUIRED)
+    async function generateDynamicDiagram() {
+      const paragraph = document.getElementById('studyParagraph').value.trim();
+      const diagramType = document.getElementById('diagramType').value;
+      const wrapper = document.getElementById('flowchartWrapper');
+      const summaryBox = document.getElementById('aiSummaryText');
+
+      if (!paragraph) {
+        alert("Please paste some study text or paragraph first.");
+        return;
+      }
+
+      wrapper.innerHTML = `<p style="color: var(--nav-map); font-weight: 600;">⚡ Processing text and building visual flowchart...</p>`;
+
+      // Break text into sentences or bullet points
+      let sentences = paragraph
+        .split(/(?:\.|\n|;)+/)
+        .map(s => s.trim().replace(/["'()]/g, ''))
+        .filter(s => s.length > 3);
+
+      if (sentences.length === 0) {
+        sentences = [paragraph.slice(0, 50)];
+      }
+
+      let mermaidCode = "";
+
+      if (diagramType === 'flowchart') {
+        mermaidCode = "graph TD\n";
+        sentences.forEach((sentence, index) => {
+          // Truncate long sentences into concise 5-7 word labels for visualization
+          const shortText = sentence.split(" ").slice(0, 6).join(" ");
+          mermaidCode += `  Step${index + 1}["${index + 1}. ${shortText}"]\n`;
+          if (index > 0) {
+            mermaidCode += `  Step${index} --> Step${index + 1}\n`;
+          }
+        });
+      } else {
+        mermaidCode = "graph TD\n";
+        const rootText = sentences[0].split(" ").slice(0, 4).join(" ");
+        mermaidCode += `  Root["Core Topic: ${rootText}"]\n`;
+        sentences.slice(1).forEach((sentence, index) => {
+          const shortText = sentence.split(" ").slice(0, 5).join(" ");
+          mermaidCode += `  Node${index + 1}["${shortText}"]\n`;
+          mermaidCode += `  Root --> Node${index + 1}\n`;
+        });
+      }
+
+      summaryBox.innerText = `Visual Breakdown: Segmented into ${sentences.length} sequential learning blocks for faster visual recall.`;
+
+      // Inject & Render Mermaid diagram dynamically
+      try {
+        wrapper.innerHTML = `<div class="mermaid" id="dynamicMermaidNode">${mermaidCode}</div>`;
+        await mermaid.run({
+          nodes: [document.getElementById('dynamicMermaidNode')]
+        });
+      } catch (err) {
+        console.error("Render error:", err);
+        wrapper.innerHTML = `<p style="color: var(--danger);">❌ Could not render flowchart. Try reducing special characters in your text.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
