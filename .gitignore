@@ -4,3 +4,5 @@ __pycache__/
 .env
 lms.db
 *.zip
+# Node.js dependencies
+node_modules/
