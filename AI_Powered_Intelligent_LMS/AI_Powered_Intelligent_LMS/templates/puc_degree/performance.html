@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+
+{% block title %}Technical Performance Dashboard - PUC & Degree{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('puc_degree_dashboard') }}" class="text-decoration-none">PUC & Degree</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Technical Performance Analytics</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+      <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+        <i class="fa-solid fa-chart-line me-1"></i> Technical Analytics & ML Profiling
+      </span>
+      <h1 class="display-6 fw-bold text-dark mb-1">Technical Performance Dashboard</h1>
+      <p class="text-muted mb-0">Multi-dimensional tracking of computer science concepts, algorithmic speed, accuracy distribution, and adaptive recommendations.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('puc_degree_test') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+        <i class="fa-solid fa-play me-1"></i> Launch 100-Q Test
+      </a>
+    </div>
+  </div>
+
+  <!-- Key Metrics Row -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Assessments Completed</div>
+        <div class="h3 fw-bold text-dark mb-0">{{ perf.total_tests }}</div>
+        <small class="text-muted">Total test history</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Questions Evaluated</div>
+        <div class="h3 fw-bold text-primary mb-0">{{ perf.total_questions }}</div>
+        <small class="text-success fw-semibold">{{ perf.total_correct }} Correct answers</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Average Proficiency</div>
+        <div class="h3 fw-bold text-success mb-0">{{ perf.average_score }}%</div>
+        <small class="text-muted">Peak score: {{ perf.highest_score }}%</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Latest Evaluation</div>
+        <div class="h3 fw-bold text-info mb-0">{{ perf.latest_score }}%</div>
+        <small class="text-muted">Tier: {{ perf.ml_predicted_level }}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Intelligent Recommendations & ML Evaluation Card -->
+  <div class="card card-modern p-4 mb-4 border-start border-4 border-primary">
+    <div class="row align-items-center gy-3">
+      <div class="col-lg-8">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge bg-primary text-white rounded-pill px-3 py-1 fw-bold">
+            <i class="fa-solid fa-robot me-1"></i> ADAPTIVE LEARNING RECOMMENDATION
+          </span>
+          <span class="badge bg-light text-dark border">Decision Tree Classifier (IEEE CITA)</span>
+        </div>
+        <h5 class="fw-bold text-dark mb-2">Personalized Technical Guidance:</h5>
+        <p class="lead fs-6 text-dark mb-2 lh-base">
+          "{{ perf.recommendation }}"
+        </p>
+        <div class="small text-muted font-monospace">
+          <i class="fa-solid fa-code-branch me-1 text-primary"></i> <strong>ML Evaluation Path:</strong> {{ perf.ml_decision_rule }}
+        </div>
+      </div>
+
+      <div class="col-lg-4 text-lg-end border-start-lg">
+        <div class="p-3 bg-light rounded-4 border text-center">
+          <div class="text-muted small fw-semibold text-uppercase">Technical Mastery Tier</div>
+          <div class="h4 fw-bold text-primary mb-1 mt-1">{{ perf.ml_predicted_level }}</div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill">
+            Cluster: {{ perf.ml_cluster }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strong vs Weak Topics Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card card-modern p-4 h-100 border-start border-4 border-success">
+        <div class="d-flex align-items-center gap-2 text-success fw-bold mb-2">
+          <i class="fa-solid fa-circle-check fs-5"></i>
+          <h5 class="mb-0 text-dark">Strong Technical Areas (&ge; 75%)</h5>
+        </div>
+        <p class="text-muted small mb-3">You exhibit mastery in these core topics. Ready for advanced optimization challenges.</p>
+        {% if perf.strong_subjects %}
+          <div class="d-flex flex-wrap gap-2">
+            {% for s in perf.strong_subjects %}
+              <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-semibold">
+                <i class="fa-solid fa-bolt me-1"></i> {{ s }}
+              </span>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-muted small fst-italic">Complete tests to identify top technical strengths.</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card card-modern p-4 h-100 border-start border-4 border-warning">
+        <div class="d-flex align-items-center gap-2 text-warning fw-bold mb-2">
+          <i class="fa-solid fa-triangle-exclamation fs-5"></i>
+          <h5 class="mb-0 text-dark">Priority Focus Topics (&lt; 60%)</h5>
+        </div>
+        <p class="text-muted small mb-3">Targeted revision and algorithmic drills recommended to strengthen foundational concepts.</p>
+        {% if perf.weak_subjects %}
+          <div class="d-flex flex-wrap gap-2">
+            {% for s in perf.weak_subjects %}
+              <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill fw-semibold">
+                <i class="fa-solid fa-book-open me-1"></i> {{ s }}
+              </span>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-muted small fst-italic">No subjects below the 60% threshold. Great job!</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW: BAR CHART + DOUGHNUT CHART -->
+  <div class="row g-4 mb-4">
+
+    <!-- 1. Bar Chart: Subject/Topic-Wise Performance -->
+    <div class="col-lg-7">
+      <div class="card card-modern p-4 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold text-dark mb-0">Topic-Wise Technical Accuracy</h5>
+          <span class="badge bg-light text-muted border">Bar Chart</span>
+        </div>
+        <div style="min-height: 280px;">
+          <canvas id="topicBarChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Doughnut Chart: Correct vs Incorrect vs Unattempted -->
+    <div class="col-lg-5">
+      <div class="card card-modern p-4 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold text-dark mb-0">Accuracy Ratio</h5>
+          <span class="badge bg-light text-muted border">Doughnut</span>
+        </div>
+        <div class="d-flex align-items-center justify-content-center" style="min-height: 280px;">
+          <canvas id="accuracyDoughnutChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3. Line Chart: Historical Progress Across Test Attempts -->
+  <div class="row g-4 mb-4">
+    <div class="col-12">
+      <div class="card card-modern p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h5 class="fw-bold text-dark mb-1">Performance Trend Across Test Sessions</h5>
+            <small class="text-muted">Tracking percentage score evolution over sequential 100-question assessments.</small>
+          </div>
+          <span class="badge bg-light text-muted border">Line Chart</span>
+        </div>
+        <div style="min-height: 260px;">
+          <canvas id="historyLineChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. TOPIC BAR CHART
+    const topicCtx = document.getElementById('topicBarChart');
+    const breakdown = {{ perf.subject_breakdown|tojson }};
+
+    if (topicCtx) {
+      if (breakdown.length === 0) {
+        new Chart(topicCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Arrays', 'Linked Lists', 'Trees', 'OOPS', 'Networks', 'DBMS'],
+            datasets: [{ label: 'Sample Benchmark (%)', data: [80, 70, 65, 85, 75, 90], backgroundColor: '#cbd5e1' }]
+          },
+          options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
+        });
+      } else {
+        const labels = breakdown.map(b => b.subject);
+        const dataVals = breakdown.map(b => b.percentage);
+        const bgColors = dataVals.map(v => v >= 75 ? '#10b981' : (v >= 60 ? '#4f46e5' : '#f59e0b'));
+
+        new Chart(topicCtx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Accuracy (%)',
+              data: dataVals,
+              backgroundColor: bgColors,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: { beginAtZero: true, max: 100 }
+            }
+          }
+        });
+      }
+    }
+
+    // 2. DOUGHNUT CHART (CORRECT VS INCORRECT VS UNATTEMPTED)
+    const dCtx = document.getElementById('accuracyDoughnutChart');
+    const correct = {{ perf.total_correct or 0 }};
+    const incorrect = {{ perf.total_incorrect or 0 }};
+    const unattempted = {{ perf.total_unattempted or 0 }};
+
+    if (dCtx) {
+      if (correct === 0 && incorrect === 0 && unattempted === 0) {
+        new Chart(dCtx, {
+          type: 'doughnut',
+          data: { labels: ['No Sessions Recorded'], datasets: [{ data: [1], backgroundColor: ['#e2e8f0'] }] },
+          options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+      } else {
+        new Chart(dCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Correct', 'Incorrect', 'Unattempted'],
+            datasets: [{
+              data: [correct, incorrect, unattempted],
+              backgroundColor: ['#10b981', '#ef4444', '#f59e0b'],
+              borderWidth: 2
+            }]
+          },
+          options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+      }
+    }
+
+    // 3. LINE CHART (HISTORICAL PROGRESS)
+    const lineCtx = document.getElementById('historyLineChart');
+    const histLabels = {{ perf.history_labels|tojson }};
+    const histScores = {{ perf.history_scores|tojson }};
+
+    if (lineCtx) {
+      if (histScores.length === 0) {
+        new Chart(lineCtx, {
+          type: 'line',
+          data: {
+            labels: ['Test 1', 'Test 2', 'Test 3'],
+            datasets: [{ label: 'Hypothetical Trajectory', data: [65, 75, 85], borderColor: '#cbd5e1', borderDash: [5, 5] }]
+          },
+          options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
+        });
+      } else {
+        new Chart(lineCtx, {
+          type: 'line',
+          data: {
+            labels: histLabels,
+            datasets: [{
+              label: 'Test Score (%)',
+              data: histScores,
+              borderColor: '#4f46e5',
+              backgroundColor: 'rgba(79, 70, 229, 0.1)',
+              tension: 0.3,
+              fill: true,
+              pointBackgroundColor: '#4f46e5',
+              pointRadius: 5
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: { beginAtZero: true, max: 100 }
+            }
+          }
+        });
+      }
+    }
+  });
+</script>
+{% endblock %}

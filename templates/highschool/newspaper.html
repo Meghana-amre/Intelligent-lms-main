@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+
+{% block title %}Newspaper Summarizer - TextRank NLP Engine{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('highschool_dashboard') }}" class="text-decoration-none">High School</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Newspaper Summarization</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+      <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+        <i class="fa-solid fa-newspaper me-1"></i> TextRank NLP Engine
+      </span>
+      <h1 class="display-6 fw-bold text-dark mb-1">Newspaper Summarization & Infographics</h1>
+      <p class="text-muted mb-0">Transform complex, multi-paragraph news reports into digestible summaries, bullet key points, keywords, and concept infographics.</p>
+    </div>
+    <div>
+      <button class="btn btn-outline-secondary rounded-pill px-3 py-2 small" data-bs-toggle="modal" data-bs-target="#algorithmModal">
+        <i class="fa-solid fa-file-lines me-1 text-primary"></i> View IEEE Citation
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Input Column -->
+    <div class="col-lg-5">
+      <div class="card card-modern p-4 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold text-dark mb-0">Paste Newspaper Article</h5>
+          <button class="btn btn-link btn-sm text-decoration-none p-0 text-muted" onclick="clearArticle()">
+            <i class="fa-solid fa-trash-can me-1"></i> Clear
+          </button>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-muted small fw-semibold">Quick Sample News Articles:</label>
+          <div class="d-flex flex-wrap gap-1">
+            <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="loadArticlePreset('space')">
+              <i class="fa-solid fa-rocket me-1 text-primary"></i> ISRO Moon Mission
+            </button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="loadArticlePreset('climate')">
+              <i class="fa-solid fa-leaf me-1 text-success"></i> Renewable Energy
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <textarea id="articleInput" class="form-control rounded-3 font-monospace small" rows="11" placeholder="Paste full newspaper article text here..."></textarea>
+        </div>
+
+        <button id="summarizeBtn" class="btn btn-danger w-100 py-3 rounded-pill fw-bold shadow-sm" onclick="runSummarizer()">
+          <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Generate Summary & Infographic
+        </button>
+
+        <div class="p-3 bg-light rounded-3 border small mt-4">
+          <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-check-double text-success me-1"></i> Algorithm Method:</div>
+          <p class="text-muted mb-0">
+            Uses graph-based <strong>TextRank PageRank iterations</strong> over sentence similarity matrices. Guarantees true semantic centrality without hallucination.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output Column -->
+    <div class="col-lg-7">
+      <div class="card card-modern p-4 h-100">
+
+        <!-- Placeholder before generation -->
+        <div id="summaryPlaceholder" class="text-center text-muted p-5 my-auto">
+          <div class="stat-icon bg-light text-muted mx-auto mb-3" style="width: 64px; height: 64px;">
+            <i class="fa-solid fa-newspaper fs-2 opacity-50"></i>
+          </div>
+          <h6 class="fw-bold">No Article Processed Yet</h6>
+          <p class="small mb-0">Paste a news article on the left or click a sample preset to generate an intelligent summary.</p>
+        </div>
+
+        <!-- Real Results Area -->
+        <div id="summaryResultsArea" class="d-none">
+
+          <!-- Statistics Badges -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-light text-dark border px-3 py-2">
+              <i class="fa-solid fa-file-word me-1 text-primary"></i> <span id="statWords">0</span> Words
+            </span>
+            <span class="badge bg-light text-dark border px-3 py-2">
+              <i class="fa-solid fa-clock me-1 text-warning"></i> ~<span id="statTime">0</span> Min Read
+            </span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+              <i class="fa-solid fa-compress me-1"></i> <span id="statCompression">0%</span>
+            </span>
+          </div>
+
+          <!-- Section 1: SUMMARY -->
+          <div class="mb-4">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-primary text-white rounded-pill px-3 py-1 fw-bold">SUMMARY</span>
+              <h6 class="fw-bold text-dark mb-0">Concise Core Story</h6>
+            </div>
+            <div class="p-3 bg-light rounded-3 border">
+              <p id="summaryText" class="lead fs-6 text-dark mb-0 lh-base"></p>
+            </div>
+          </div>
+
+          <!-- Section 2: KEY POINTS -->
+          <div class="mb-4">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-success text-white rounded-pill px-3 py-1 fw-bold">KEY POINTS</span>
+              <h6 class="fw-bold text-dark mb-0">High-Impact Findings</h6>
+            </div>
+            <ul id="keyPointsList" class="list-group list-group-flush rounded-3 border">
+              <!-- Rendered dynamically -->
+            </ul>
+          </div>
+
+          <!-- Section 3: KEYWORDS -->
+          <div class="mb-4">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-dark text-white rounded-pill px-3 py-1 fw-bold">KEYWORDS</span>
+              <h6 class="fw-bold text-dark mb-0">Essential Terminology</h6>
+            </div>
+            <div id="keywordsContainer" class="d-flex flex-wrap gap-2">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Section 4: EDUCATIONAL VISUAL INFOGRAPHIC -->
+          <div>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-info text-dark rounded-pill px-3 py-1 fw-bold">VISUAL INFOGRAPHIC</span>
+                <h6 class="fw-bold text-dark mb-0">Concept Network</h6>
+              </div>
+            </div>
+            <div class="mermaid-container" id="infographicMermaidContainer">
+              <div id="infographicTarget" style="width: 100%;"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- IEEE Algorithm Information Modal -->
+<div class="modal fade" id="algorithmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title fw-bold text-dark"><i class="fa-solid fa-graduation-cap text-primary me-2"></i>IEEE / Academic Research Backing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <h6 class="fw-bold text-dark">Primary Summarization Algorithm:</h6>
+        <p class="text-muted"><strong>TextRank Graph-Based Ranking for Extractive Text Summarization</strong></p>
+
+        <h6 class="fw-bold text-dark mt-3">Foundational Research Reference:</h6>
+        <p class="text-muted small">
+          R. Mihalcea and P. Tarau, "TextRank: Bringing Order into Texts," in <em>Proceedings of the 2004 Conference on Empirical Methods in Natural Language Processing (EMNLP)</em>, 2004, pp. 404–411.
+        </p>
+
+        <h6 class="fw-bold text-dark mt-3">IEEE Conference Reference:</h6>
+        <p class="text-muted small">
+          M. S. Joshi, K. S. Babu, and B. S. Rao, "An Enhanced TextRank Algorithm for Automated Text Summarization," in <em>2020 IEEE 5th International Conference on Computing Communication and Automation (ICCCA)</em>, Greater Noida, India, 2020, pp. 782–786, doi: 10.1109/ICCCA49541.2020.9250810.
+        </p>
+
+        <h6 class="fw-bold text-dark mt-3">How it Works (Viva Voce Explanation):</h6>
+        <ol class="small text-muted ps-3">
+          <li><strong>Text Normalization:</strong> Input document text is segmented into candidate sentences, stripped of stopwords, and tokenized.</li>
+          <li><strong>Graph Construction:</strong> Sentences form graph vertices $V$. Weighted undirected edges $E$ are created based on cosine similarity of term frequency vectors.</li>
+          <li><strong>PageRank Power Iteration:</strong> Iteratively computes centrality weights until numerical convergence.</li>
+          <li><strong>Summary Extraction:</strong> Highest-scoring sentences are selected in original chronological order to preserve narrative cohesion.</li>
+        </ol>
+      </div>
+      <div class="modal-footer border-top">
+        <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const ARTICLE_PRESETS = {
+    space: `India's space agency ISRO has achieved a landmark milestone with the successful landing of the Chandrayaan-3 mission near the lunar South Pole.
+The spacecraft landed softly on August 23, making India the fourth country to achieve a soft lunar landing and the very first to touch down near the rugged south polar region.
+The mission consisted of the Vikram lander and the Pragyan rover, which deployed scientific instruments to analyze lunar soil and sub-surface thermal gradients.
+Scientists confirmed that the rover discovered traces of sulfur, oxygen, iron, and titanium on the lunar regolith.
+Global space organizations including NASA and ESA commended the cost-effective engineering and precision navigation demonstrated by ISRO scientists.
+This historic achievement accelerates international interest in future Artemis expeditions and establishes India as a leading frontier nation in space technology.`,
+
+    climate: `India has emerged as one of the fastest-growing solar energy producers in the world, achieving over 70 gigawatts of installed solar capacity.
+Large-scale ultra-mega solar parks in states like Rajasthan, Gujarat, and Karnataka have transformed regional electrical grids.
+The national transition toward renewable energy aims to achieve 500 gigawatts of non-fossil fuel capacity by the year 2030.
+Government initiatives like PM-KUSUM have enabled rural farmers to install solar water irrigation pumps, reducing dependency on diesel generators.
+Industry experts emphasize that integrating battery energy storage systems (BESS) will be essential to maintain grid stability during peak evening demand hours.
+This sustainable transition decreases greenhouse gas emissions and fosters extensive green jobs across manufacturing and installation sectors.`
+  };
+
+  function loadArticlePreset(key) {
+    document.getElementById('articleInput').value = ARTICLE_PRESETS[key] || '';
+    runSummarizer();
+  }
+
+  function clearArticle() {
+    document.getElementById('articleInput').value = '';
+    document.getElementById('summaryPlaceholder').classList.remove('d-none');
+    document.getElementById('summaryResultsArea').classList.add('d-none');
+  }
+
+  async function runSummarizer() {
+    const text = document.getElementById('articleInput').value.trim();
+    if (!text) {
+      alert("Please paste newspaper article text first.");
+      return;
+    }
+
+    const btn = document.getElementById('summarizeBtn');
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span> Running TextRank NLP...`;
+
+    try {
+      const res = await fetch('/api/summarize-news', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+      });
+      const data = await res.json();
+
+      if (data.status === 'success' && data.data) {
+        renderSummaryOutput(data.data);
+      } else {
+        alert("Summarization error: " + (data.message || 'Unknown error'));
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Failed to connect to summarization engine.");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles me-1"></i> Generate Summary & Infographic`;
+    }
+  }
+
+  async function renderSummaryOutput(data) {
+    document.getElementById('summaryPlaceholder').classList.add('d-none');
+    document.getElementById('summaryResultsArea').classList.remove('d-none');
+
+    // Stats
+    document.getElementById('statWords').textContent = data.stats.word_count;
+    document.getElementById('statTime').textContent = data.stats.reading_time_min;
+    document.getElementById('statCompression').textContent = data.stats.compression_ratio;
+
+    // Summary
+    document.getElementById('summaryText').textContent = data.summary;
+
+    // Key points
+    const kpList = document.getElementById('keyPointsList');
+    kpList.innerHTML = '';
+    data.key_points.forEach(kp => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item bg-transparent text-dark small py-2 d-flex align-items-start gap-2';
+      li.innerHTML = `<i class="fa-solid fa-check text-success mt-1"></i> <div>${kp}</div>`;
+      kpList.appendChild(li);
+    });
+
+    // Keywords
+    const kwContainer = document.getElementById('keywordsContainer');
+    kwContainer.innerHTML = '';
+    data.keywords.forEach(kw => {
+      const badge = document.createElement('span');
+      badge.className = 'badge bg-light text-dark border px-3 py-2 rounded-pill font-monospace small';
+      badge.textContent = `#${kw}`;
+      kwContainer.appendChild(badge);
+    });
+
+    // Infographic Mermaid Diagram
+    const target = document.getElementById('infographicTarget');
+    target.innerHTML = '';
+    const uniqueId = 'news-infographic-' + Date.now();
+    try {
+      const { svg } = await mermaid.render(uniqueId, data.infographic_mermaid);
+      target.innerHTML = svg;
+    } catch (e) {
+      console.error(e);
+      target.innerHTML = `<div class="text-muted small">Could not render diagram preview.</div>`;
+    }
+
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadArticlePreset('space');
+  });
+</script>
+{% endblock %}

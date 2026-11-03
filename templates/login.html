@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Account Login - IntelliLearn{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+      <div class="card card-modern p-4 p-md-5">
+        <div class="text-center mb-4">
+          <div class="stat-icon bg-primary text-white mx-auto mb-3">
+            <i class="fa-solid fa-right-to-bracket"></i>
+          </div>
+          <h1 class="h3 fw-bold text-dark mb-2">Account Login</h1>
+          <p class="text-muted mb-0">Enter your account ID and password to open your IntelliLearn portal.</p>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+          <i class="fa-solid fa-circle-exclamation me-2"></i>{{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+          <div class="mb-3">
+            <label for="student_id" class="form-label fw-semibold">Account ID</label>
+            <input id="student_id" name="student_id" type="number" class="form-control form-control-lg" min="1" required autofocus>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="form-label fw-semibold">Password</label>
+            <input id="password" name="password" type="password" class="form-control form-control-lg" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold">
+            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Enter Dashboard
+          </button>
+        </form>
+
+        <div class="text-center mt-4">
+          <span class="text-muted small">New student?</span>
+          <a href="{{ url_for('register') }}" class="small fw-semibold">Create an account</a>
+        </div>
+
+        <div class="alert alert-info mt-4 mb-0 small">
+          <strong>Demo credentials</strong><br>
+          High School: ID <strong>1</strong>, password <strong>rahul123</strong><br>
+          PUC &amp; Degree: ID <strong>2</strong>, password <strong>ananya123</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

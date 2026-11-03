@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="MBBS Molecular Genetics DNA Double Helix Structure">
+  <defs>
+    <linearGradient id="strand1Grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00b4d8"/>
+      <stop offset="50%" stop-color="#0077b6"/>
+      <stop offset="100%" stop-color="#03045e"/>
+    </linearGradient>
+    <linearGradient id="strand2Grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff758f"/>
+      <stop offset="50%" stop-color="#e63946"/>
+      <stop offset="100%" stop-color="#780000"/>
+    </linearGradient>
+    <radialGradient id="dnaBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a192f"/>
+      <stop offset="100%" stop-color="#020c1b"/>
+    </radialGradient>
+    <filter id="dnaGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#48cae4" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="320" height="240" fill="url(#dnaBg)"/>
+
+  <!-- Nucleosome Histone Core Inset -->
+  <g transform="translate(245, 45)" opacity="0.7">
+    <ellipse cx="0" cy="0" rx="28" ry="18" fill="#ffd166" stroke="#f77f00" stroke-width="1.8"/>
+    <path d="M-32 -5 C-30 -22 30 -22 32 -5 C32 15 -30 18 -32 -2" fill="none" stroke="#00b4d8" stroke-width="2.5"/>
+    <text x="-24" y="3" font-family="system-ui, sans-serif" font-size="6" font-weight="700" fill="#020c1b">HISTONE OCTAMER</text>
+  </g>
+
+  <!-- B-DNA DOUBLE HELIX LADDER -->
+  <g filter="url(#dnaGlow)" transform="translate(140, 10)">
+    <!-- Rung 1: A=T -->
+    <g transform="translate(0, 15)">
+      <line x1="-38" y1="0" x2="-2" y2="0" stroke="#06d6a0" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-1.5" r="1" fill="#ffffff"/><circle cx="0" cy="1.5" r="1" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="38" y2="0" stroke="#ffd166" stroke-width="4.5" stroke-linecap="round"/>
+      <text x="-50" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#06d6a0">A</text>
+      <text x="44" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#ffd166">T</text>
+    </g>
+
+    <!-- Rung 2: G≡C -->
+    <g transform="translate(0, 35)">
+      <line x1="-30" y1="0" x2="-2" y2="0" stroke="#118ab2" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-2.5" r="0.9" fill="#ffffff"/><circle cx="0" cy="0" r="0.9" fill="#ffffff"/><circle cx="0" cy="2.5" r="0.9" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="30" y2="0" stroke="#ef476f" stroke-width="4.5" stroke-linecap="round"/>
+      <text x="-42" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#118ab2">G</text>
+      <text x="35" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#ef476f">C</text>
+    </g>
+
+    <!-- Crossing Node 1 -->
+    <g transform="translate(0, 55)">
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#ffd166" stroke-width="4" stroke-linecap="round"/>
+    </g>
+
+    <!-- Rung 4: C≡G -->
+    <g transform="translate(0, 75)">
+      <line x1="-28" y1="0" x2="-2" y2="0" stroke="#ef476f" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-2.5" r="0.9" fill="#ffffff"/><circle cx="0" cy="0" r="0.9" fill="#ffffff"/><circle cx="0" cy="2.5" r="0.9" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="28" y2="0" stroke="#118ab2" stroke-width="4.5" stroke-linecap="round"/>
+      <text x="-40" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#ef476f">C</text>
+      <text x="33" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#118ab2">G</text>
+    </g>
+
+    <!-- Rung 5: T=A -->
+    <g transform="translate(0, 95)">
+      <line x1="-42" y1="0" x2="-2" y2="0" stroke="#ffd166" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-1.5" r="1" fill="#ffffff"/><circle cx="0" cy="1.5" r="1" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="42" y2="0" stroke="#06d6a0" stroke-width="4.5" stroke-linecap="round"/>
+      <text x="-54" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#ffd166">T</text>
+      <text x="48" y="3" font-family="monospace" font-size="7" font-weight="700" fill="#06d6a0">A</text>
+    </g>
+
+    <!-- Rung 6: A=T -->
+    <g transform="translate(0, 115)">
+      <line x1="-38" y1="0" x2="-2" y2="0" stroke="#06d6a0" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-1.5" r="1" fill="#ffffff"/><circle cx="0" cy="1.5" r="1" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="38" y2="0" stroke="#ffd166" stroke-width="4.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Rung 7: G≡C -->
+    <g transform="translate(0, 135)">
+      <line x1="-24" y1="0" x2="-2" y2="0" stroke="#118ab2" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-2.5" r="0.9" fill="#ffffff"/><circle cx="0" cy="0" r="0.9" fill="#ffffff"/><circle cx="0" cy="2.5" r="0.9" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="24" y2="0" stroke="#ef476f" stroke-width="4.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Crossing Node 2 -->
+    <g transform="translate(0, 155)">
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#06d6a0" stroke-width="4" stroke-linecap="round"/>
+    </g>
+
+    <!-- Rung 9: C≡G -->
+    <g transform="translate(0, 175)">
+      <line x1="-28" y1="0" x2="-2" y2="0" stroke="#ef476f" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-2.5" r="0.9" fill="#ffffff"/><circle cx="0" cy="0" r="0.9" fill="#ffffff"/><circle cx="0" cy="2.5" r="0.9" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="28" y2="0" stroke="#118ab2" stroke-width="4.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Rung 10: T=A -->
+    <g transform="translate(0, 195)">
+      <line x1="-40" y1="0" x2="-2" y2="0" stroke="#ffd166" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-1.5" r="1" fill="#ffffff"/><circle cx="0" cy="1.5" r="1" fill="#ffffff"/>
+      <line x1="2" y1="0" x2="40" y2="0" stroke="#06d6a0" stroke-width="4.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Strand 1 -->
+    <path d="M-42 0 C-46 30 -20 50 0 55 C25 60 46 80 44 110 C42 135 15 150 0 155 C-25 160 -46 180 -42 210" fill="none" stroke="url(#strand1Grad)" stroke-width="6.5" stroke-linecap="round"/>
+
+    <!-- Strand 2 -->
+    <path d="M42 0 C46 30 20 50 0 55 C-25 60 -46 80 -44 110 C-42 135 -15 150 0 155 C25 160 46 180 42 210" fill="none" stroke="url(#strand2Grad)" stroke-width="6.5" stroke-linecap="round"/>
+
+    <!-- 5' and 3' Terminus Indicators -->
+    <text x="-58" y="2" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#00b4d8">5'</text>
+    <text x="48" y="2" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#ff758f">3'</text>
+    <text x="-58" y="214" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#ff758f">3'</text>
+    <text x="48" y="214" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#00b4d8">5'</text>
+  </g>
+
+  <!-- Structural Dimensions -->
+  <g font-family="system-ui, sans-serif" font-size="7" font-weight="600" fill="#90caf9">
+    <text x="15" y="65">MINOR GROOVE (12 Å)</text>
+    <text x="15" y="105">MAJOR GROOVE (22 Å)</text>
+    <text x="15" y="145">PITCH: 34 Å / TURN</text>
+    <text x="15" y="160">10.5 BP PER TURN</text>
+  </g>
+
+  <!-- Base Color Legend -->
+  <g transform="translate(235, 120)" font-family="system-ui, sans-serif" font-size="7" font-weight="700">
+    <circle cx="0" cy="0" r="3" fill="#06d6a0"/><text x="8" y="3" fill="#06d6a0">Adenine (A)</text>
+    <circle cx="0" cy="14" r="3" fill="#ffd166"/><text x="8" y="17" fill="#ffd166">Thymine (T)</text>
+    <circle cx="0" cy="28" r="3" fill="#118ab2"/><text x="8" y="31" fill="#118ab2">Guanine (G)</text>
+    <circle cx="0" cy="42" r="3" fill="#ef476f"/><text x="8" y="45" fill="#ef476f">Cytosine (C)</text>
+  </g>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="138" height="18" rx="4" fill="#03045e" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">B-DNA DOUBLE HELIX</text>
+    <rect x="142" y="-14" width="108" height="18" rx="4" fill="#0077b6" opacity="0.95"/>
+    <text x="148" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">MOLECULAR GENETICS</text>
+  </g>
+</svg>

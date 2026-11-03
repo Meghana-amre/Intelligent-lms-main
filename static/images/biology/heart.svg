@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="MBBS Cardiac Anatomy and Internal Chambers">
+  <defs>
+    <radialGradient id="heartMyo" cx="45%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#e63946"/>
+      <stop offset="60%" stop-color="#c1121f"/>
+      <stop offset="100%" stop-color="#780000"/>
+    </radialGradient>
+    <linearGradient id="aortaGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff758f"/>
+      <stop offset="50%" stop-color="#e63946"/>
+      <stop offset="100%" stop-color="#a4161a"/>
+    </linearGradient>
+    <linearGradient id="pulmArtGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4ea8de"/>
+      <stop offset="100%" stop-color="#144570"/>
+    </linearGradient>
+    <linearGradient id="venaCavaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#56cfe1"/>
+      <stop offset="100%" stop-color="#1d3557"/>
+    </linearGradient>
+    <radialGradient id="chamberDark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#400106"/>
+      <stop offset="100%" stop-color="#1a0002"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background / Pericardial Cavity -->
+  <rect width="320" height="240" fill="#fcf6f7"/>
+
+  <!-- Great Vessels at the Base of the Heart -->
+  <path d="M78 18 L78 95 L102 95 L102 18 Z" fill="url(#venaCavaGrad)" stroke="#1d3557" stroke-width="1.5"/>
+  <path d="M76 170 L76 225 L100 225 L100 170 Z" fill="url(#venaCavaGrad)" stroke="#1d3557" stroke-width="1.5"/>
+
+  <!-- Pulmonary Artery Trunk & Left/Right Branches -->
+  <path d="M140 38 C140 20 195 18 200 45 L180 75 C160 55 140 55 130 82 Z" fill="url(#pulmArtGrad)" stroke="#144570" stroke-width="1.5"/>
+  <path d="M125 78 C135 60 175 60 185 85 L165 110 C155 95 135 95 125 108 Z" fill="url(#pulmArtGrad)"/>
+
+  <!-- Aortic Arch with Brachiocephalic, Left Common Carotid, Left Subclavian Arteries -->
+  <path d="M120 70 C120 20 175 10 185 45 C190 70 180 90 170 100" fill="none" stroke="url(#aortaGrad)" stroke-width="20" stroke-linecap="round"/>
+  <path d="M135 30 L130 10 M152 24 L152 8 M168 28 L172 10" stroke="url(#aortaGrad)" stroke-width="6.5" stroke-linecap="round"/>
+
+  <!-- Pulmonary Veins -->
+  <path d="M225 75 L255 70 M225 88 L255 85" stroke="#e63946" stroke-width="8" stroke-linecap="round"/>
+  <path d="M65 75 L45 72 M65 88 L45 86" stroke="#e63946" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- External Myocardial Muscle Wall (Coronal Cutaway) -->
+  <path d="M90 92 C55 92 45 135 55 170 C70 215 130 235 165 235 C205 235 270 205 270 145 C270 95 230 92 195 92 Z" fill="url(#heartMyo)" stroke="#590004" stroke-width="2"/>
+
+  <!-- INTERNAL 4 CHAMBERS CUTAWAY -->
+  <!-- 1. Right Atrium -->
+  <path d="M72 102 C68 120 72 135 92 138 C105 138 112 125 110 105 C98 100 82 100 72 102 Z" fill="url(#chamberDark)" stroke="#800000" stroke-width="1.2"/>
+  <text x="76" y="122" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#90caf9">R. ATRIUM</text>
+  <circle cx="80" cy="104" r="2.8" fill="#ffeb3b" stroke="#f57f17" stroke-width="1"/>
+
+  <!-- 2. Left Atrium -->
+  <path d="M195 102 C215 100 232 105 235 125 C235 138 220 142 205 140 C198 125 195 115 195 102 Z" fill="url(#chamberDark)" stroke="#800000" stroke-width="1.2"/>
+  <text x="200" y="122" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#ff8a80">L. ATRIUM</text>
+
+  <!-- Interatrial & AV Septum with AV Node -->
+  <path d="M135 100 L145 140" stroke="#c1121f" stroke-width="8"/>
+  <circle cx="138" cy="132" r="2.8" fill="#ffeb3b" stroke="#f57f17" stroke-width="1"/>
+
+  <!-- 3. Right Ventricle -->
+  <path d="M85 150 C75 185 105 208 135 210 C140 185 138 160 135 150 C115 148 95 148 85 150 Z" fill="url(#chamberDark)" stroke="#800000" stroke-width="1.2"/>
+  <text x="88" y="180" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#90caf9">R. VENTRICLE</text>
+  <path d="M92 142 L98 162 M108 142 L105 162 M120 142 L112 162" stroke="#ffffff" stroke-width="1.2"/>
+  <ellipse cx="106" cy="168" rx="4" ry="7" fill="#b71c1c"/>
+
+  <!-- Thick Interventricular Septum -->
+  <path d="M138 140 Q145 180 162 230" stroke="#780000" stroke-width="14" fill="none"/>
+  <path d="M138 135 Q143 165 155 200" stroke="#ffee58" stroke-width="1.8" fill="none" stroke-dasharray="3 1.5"/>
+
+  <!-- 4. Left Ventricle -->
+  <path d="M155 148 C165 150 190 150 215 148 C225 180 205 218 172 225 C162 200 155 170 155 148 Z" fill="url(#chamberDark)" stroke="#800000" stroke-width="1.2"/>
+  <text x="175" y="180" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#ff8a80">L. VENTRICLE</text>
+  <path d="M178 142 L185 165 M200 142 L192 165" stroke="#ffffff" stroke-width="1.4"/>
+  <ellipse cx="190" cy="175" rx="5.5" ry="10" fill="#b71c1c"/>
+
+  <!-- Coronary Sulcus / LAD -->
+  <path d="M165 130 Q168 175 162 225" stroke="#ff1744" stroke-width="2" fill="none" opacity="0.8"/>
+
+  <!-- Conduction System Key -->
+  <g transform="translate(10, 38)">
+    <circle cx="4" cy="4" r="3" fill="#ffeb3b" stroke="#f57f17" stroke-width="1"/>
+    <text x="12" y="7" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#b71c1c">SA/AV CONDUCTION</text>
+  </g>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="145" height="18" rx="4" fill="#780000" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">CARDIAC ANATOMY (4-CH)</text>
+    <rect x="149" y="-14" width="98" height="18" rx="4" fill="#c1121f" opacity="0.95"/>
+    <text x="155" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">MBBS CARDIOLOGY</text>
+  </g>
+</svg>

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Cerebellar Cortex Purkinje Cell Histology">
+  <defs>
+    <linearGradient id="molLayer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fae3eb"/>
+      <stop offset="100%" stop-color="#f3c2d4"/>
+    </linearGradient>
+    <linearGradient id="granLayer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d1558"/>
+      <stop offset="100%" stop-color="#240738"/>
+    </linearGradient>
+    <radialGradient id="purkSoma" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#8e24aa"/>
+      <stop offset="60%" stop-color="#4a148c"/>
+      <stop offset="100%" stop-color="#311b92"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background: Molecular Layer (Upper 110px) -->
+  <rect x="0" y="0" width="320" height="110" fill="url(#molLayer)"/>
+
+  <!-- Purkinje Intermediate Zone & Stroma -->
+  <rect x="0" y="110" width="320" height="25" fill="#f0b6cd"/>
+
+  <!-- Granule Cell Layer (Lower 105px) -->
+  <rect x="0" y="135" width="320" height="105" fill="url(#granLayer)"/>
+
+  <!-- Granule Layer Densely Packed Nuclei -->
+  <g fill="#9c27b0" opacity="0.6">
+    <!-- Row 1 -->
+    <circle cx="20" cy="148" r="4"/><circle cx="38" cy="145" r="4"/><circle cx="56" cy="150" r="4"/><circle cx="75" cy="146" r="4"/><circle cx="95" cy="151" r="4"/><circle cx="114" cy="147" r="4"/><circle cx="132" cy="150" r="4"/><circle cx="152" cy="146" r="4"/><circle cx="170" cy="149" r="4"/><circle cx="190" cy="145" r="4"/><circle cx="210" cy="150" r="4"/><circle cx="230" cy="146" r="4"/><circle cx="250" cy="149" r="4"/><circle cx="270" cy="145" r="4"/><circle cx="290" cy="150" r="4"/><circle cx="308" cy="147" r="4"/>
+    <!-- Row 2 -->
+    <circle cx="12" cy="165" r="4.5"/><circle cx="28" cy="168" r="4"/><circle cx="48" cy="164" r="4.5"/><circle cx="68" cy="169" r="4"/><circle cx="88" cy="165" r="4.5"/><circle cx="108" cy="168" r="4"/><circle cx="128" cy="164" r="4.5"/><circle cx="148" cy="169" r="4"/><circle cx="168" cy="165" r="4.5"/><circle cx="188" cy="168" r="4"/><circle cx="208" cy="164" r="4.5"/><circle cx="228" cy="169" r="4"/><circle cx="248" cy="165" r="4.5"/><circle cx="268" cy="168" r="4"/><circle cx="288" cy="164" r="4.5"/><circle cx="305" cy="169" r="4"/>
+    <!-- Row 3 -->
+    <circle cx="18" cy="188" r="4"/><circle cx="36" cy="192" r="4.5"/><circle cx="55" cy="186" r="4"/><circle cx="75" cy="190" r="4.5"/><circle cx="95" cy="187" r="4"/><circle cx="115" cy="191" r="4.5"/><circle cx="135" cy="186" r="4"/><circle cx="155" cy="190" r="4.5"/><circle cx="175" cy="187" r="4"/><circle cx="195" cy="192" r="4.5"/><circle cx="215" cy="187" r="4"/><circle cx="235" cy="191" r="4.5"/><circle cx="255" cy="187" r="4"/><circle cx="275" cy="192" r="4.5"/><circle cx="295" cy="187" r="4"/>
+  </g>
+
+  <!-- Purkinje Cells (Large flask/piriform shaped somas & immense dendritic trees) -->
+  <!-- Left Purkinje Cell -->
+  <g transform="translate(80, 122)">
+    <!-- Axon plunging into granule layer -->
+    <path d="M0 16 L0 80" stroke="#311b92" stroke-width="2.5" fill="none"/>
+    <!-- Dendritic Arborization (Spreading up into molecular layer) -->
+    <path d="M0 -15 Q-15 -35 -20 -60 Q-28 -80 -35 -95" stroke="#4a148c" stroke-width="3" fill="none"/>
+    <path d="M-20 -60 Q-10 -75 -8 -98" stroke="#4a148c" stroke-width="2" fill="none"/>
+    <path d="M0 -15 Q12 -38 22 -62 Q28 -82 32 -98" stroke="#4a148c" stroke-width="3" fill="none"/>
+    <path d="M12 -38 Q5 -55 2 -95" stroke="#4a148c" stroke-width="2" fill="none"/>
+    <path d="M22 -62 Q35 -75 42 -96" stroke="#4a148c" stroke-width="1.8" fill="none"/>
+    <!-- Soma (Flask shaped) -->
+    <path d="M-14 8 C-18 -8 -8 -18 0 -20 C8 -18 18 -8 14 8 C10 18 -10 18 -14 8 Z" fill="url(#purkSoma)" stroke="#1a0033" stroke-width="1.5"/>
+    <!-- Vesicular Nucleus with Prominent Nucleolus -->
+    <circle cx="0" cy="-2" r="6" fill="#ba68c8"/>
+    <circle cx="1" cy="-2" r="2.5" fill="#120024"/>
+  </g>
+
+  <!-- Central Primary Purkinje Cell (Main Focus) -->
+  <g transform="translate(195, 120)">
+    <!-- Axon -->
+    <path d="M0 18 L2 85" stroke="#311b92" stroke-width="2.8" fill="none"/>
+    <!-- Rich Fan-like Dendritic Tree in Molecular Layer -->
+    <path d="M0 -18 Q-10 -40 -18 -65 Q-28 -88 -38 -105" stroke="#4a148c" stroke-width="3.5" fill="none"/>
+    <path d="M-18 -65 Q-8 -85 -6 -108" stroke="#4a148c" stroke-width="2.2" fill="none"/>
+    <path d="M-28 -88 Q-22 -98 -20 -110" stroke="#4a148c" stroke-width="1.8" fill="none"/>
+    <path d="M0 -18 Q15 -42 26 -68 Q34 -90 40 -108" stroke="#4a148c" stroke-width="3.5" fill="none"/>
+    <path d="M15 -42 Q8 -62 6 -106" stroke="#4a148c" stroke-width="2.2" fill="none"/>
+    <path d="M26 -68 Q40 -85 50 -105" stroke="#4a148c" stroke-width="1.8" fill="none"/>
+    <path d="M34 -90 Q28 -100 26 -112" stroke="#4a148c" stroke-width="1.6" fill="none"/>
+    <!-- Soma -->
+    <path d="M-18 10 C-22 -10 -10 -22 0 -25 C10 -22 22 -10 18 10 C12 22 -12 22 -18 10 Z" fill="url(#purkSoma)" stroke="#1a0033" stroke-width="2"/>
+    <!-- Vesicular Nucleus & Nucleolus -->
+    <circle cx="0" cy="-3" r="7.5" fill="#ce93d8"/>
+    <circle cx="1.5" cy="-3" r="3" fill="#1a0033"/>
+  </g>
+
+  <!-- Layer Indicator Lines & Labels on Right -->
+  <g opacity="0.85" font-family="system-ui, sans-serif" font-size="8" font-weight="700">
+    <text x="8" y="32" fill="#880e4f">MOLECULAR LAYER</text>
+    <text x="8" y="118" fill="#4a148c">PURKINJE CELL LAYER</text>
+    <text x="8" y="152" fill="#e1bee7">GRANULE CELL LAYER</text>
+  </g>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="138" height="18" rx="4" fill="#311b92" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">PURKINJE NEURONS</text>
+    <rect x="142" y="-14" width="102" height="18" rx="4" fill="#8e24aa" opacity="0.95"/>
+    <text x="148" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">NEUROHISTOLOGY</text>
+  </g>
+</svg>

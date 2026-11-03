@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Performance Analysis - High School{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('highschool_dashboard') }}" class="text-decoration-none">High School</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Student Performance Analysis</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+      <span class="badge bg-purple text-white px-3 py-1 rounded-pill fw-bold mb-2" style="background-color: #8b5cf6;">
+        <i class="fa-solid fa-chart-line me-1"></i> Self-Assessment Engine
+      </span>
+      <h1 class="display-6 fw-bold text-dark mb-1">Student Performance Analysis</h1>
+      <p class="text-muted mb-0">Autonomous self-assessment tracking test scores, game accuracy, subject proficiency, and ML performance classification.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('highschool_test') }}" class="btn btn-success rounded-pill px-4 fw-bold">
+        <i class="fa-solid fa-play me-1"></i> Take New Test
+      </a>
+    </div>
+  </div>
+
+  <!-- Key Metrics Row -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Tests Attempted</div>
+        <div class="h3 fw-bold text-dark mb-0">{{ perf.total_tests }}</div>
+        <small class="text-muted">Total assessments</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Questions Attempted</div>
+        <div class="h3 fw-bold text-primary mb-0">{{ perf.total_questions }}</div>
+        <small class="text-success fw-semibold">{{ perf.total_correct }} Correct</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Average Score</div>
+        <div class="h3 fw-bold text-success mb-0">{{ perf.average_score }}%</div>
+        <small class="text-muted">Highest: {{ perf.highest_score }}%</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Overall Percentage</div>
+        <div class="h3 fw-bold text-purple mb-0" style="color: #7c3aed;">{{ perf.overall_percentage }}%</div>
+        <small class="text-muted">Academic accuracy</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Intelligent Recommendations & ML Evaluation Card -->
+  <div class="card card-modern p-4 mb-4 border-start border-4 border-primary">
+    <div class="row align-items-center gy-3">
+      <div class="col-lg-8">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge bg-primary text-white rounded-pill px-3 py-1 fw-bold">
+            <i class="fa-solid fa-robot me-1"></i> AI LEARNING RECOMMENDATION
+          </span>
+          <span class="badge bg-light text-dark border">Decision Tree Classifier</span>
+        </div>
+        <h5 class="fw-bold text-dark mb-2">Personalized Study Feedback:</h5>
+        <p class="lead fs-6 text-dark mb-2 lh-base">
+          "{{ perf.recommendation }}"
+        </p>
+        <div class="small text-muted font-monospace">
+          <i class="fa-solid fa-code-branch me-1 text-primary"></i> <strong>ML Decision Path:</strong> {{ perf.ml_decision_rule }}
+        </div>
+      </div>
+
+      <div class="col-lg-4 text-lg-end border-start-lg">
+        <div class="p-3 bg-light rounded-4 border text-center">
+          <div class="text-muted small fw-semibold text-uppercase">Performance Tier</div>
+          <div class="h4 fw-bold text-primary mb-1 mt-1">{{ perf.ml_predicted_level }}</div>
+          <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill">
+            Mastery: {{ perf.ml_cluster }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+
+    <!-- Subject-Wise Performance Breakdown -->
+    <div class="col-lg-7">
+      <div class="card card-modern p-4 h-100">
+        <h5 class="fw-bold text-dark mb-3">Subject-Wise Performance Breakdown</h5>
+
+        {% if perf.subject_breakdown %}
+          <div class="mb-4">
+            {% for s in perf.subject_breakdown %}
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center small mb-1">
+                <strong class="text-dark">{{ s.subject }}</strong>
+                <span class="fw-bold text-secondary">{{ s.correct }}/{{ s.total_asked }} ({{ s.percentage }}%)</span>
+              </div>
+              <div class="progress" style="height: 10px; border-radius: 6px;">
+                <div class="progress-bar {% if s.percentage >= 75 %}bg-success{% elif s.percentage >= 60 %}bg-primary{% else %}bg-warning{% endif %}"
+                     role="progressbar" style="width: {{ s.percentage }}%;"></div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center text-muted p-5">
+            <i class="fa-solid fa-chart-column fs-2 mb-2 opacity-50"></i>
+            <p class="small mb-0">Complete your first 50-Question Subject Test to view subject mastery breakdown.</p>
+          </div>
+        {% endif %}
+
+        <!-- Strong Areas vs Weak Areas Highlights -->
+        <div class="row g-3 pt-3 border-top mt-auto">
+          <div class="col-sm-6">
+            <div class="p-3 bg-success-subtle rounded-3 border border-success-subtle">
+              <div class="d-flex align-items-center gap-2 text-success fw-bold small mb-1">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                <span>Strong Areas (>= 75%)</span>
+              </div>
+              {% if perf.strong_subjects %}
+                <div class="small fw-semibold text-dark">{{ perf.strong_subjects|join(', ') }}</div>
+              {% else %}
+                <div class="small text-muted fst-italic">Complete tests to identify strengths</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="p-3 bg-warning-subtle rounded-3 border border-warning-subtle">
+              <div class="d-flex align-items-center gap-2 text-warning fw-bold small mb-1">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Areas Needing Improvement (&lt; 60%)</span>
+              </div>
+              {% if perf.weak_subjects %}
+                <div class="small fw-semibold text-dark">{{ perf.weak_subjects|join(', ') }}</div>
+              {% else %}
+                <div class="small text-muted fst-italic">No subjects below threshold</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Chart: Progress & Accuracy -->
+    <div class="col-lg-5">
+      <div class="card card-modern p-4 h-100">
+        <h5 class="fw-bold text-dark mb-3">Overall Accuracy Breakdown</h5>
+        <div class="d-flex align-items-center justify-content-center" style="min-height: 250px;">
+          <canvas id="accuracyChart"></canvas>
+        </div>
+
+        <div class="p-3 bg-light rounded-3 border small mt-4">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="text-muted">Educational Games Accuracy:</span>
+            <strong class="text-dark">{{ perf.game_stats.avg_accuracy }}%</strong>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted">Active IQ Games Recorded:</span>
+            <strong class="text-dark">{{ perf.game_stats.total_games }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('accuracyChart');
+    if (!ctx) return;
+
+    const correct = {{ perf.total_correct or 0 }};
+    const incorrect = {{ perf.total_incorrect or 0 }};
+    const unattempted = {{ perf.total_unattempted or 0 }};
+
+    if (correct === 0 && incorrect === 0 && unattempted === 0) {
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['No Data Yet'],
+          datasets: [{ data: [1], backgroundColor: ['#e2e8f0'] }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+    } else {
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Correct', 'Incorrect', 'Unattempted'],
+          datasets: [{
+            data: [correct, incorrect, unattempted],
+            backgroundColor: ['#10b981', '#ef4444', '#f59e0b'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

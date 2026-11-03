@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="MBBS Neuroanatomy Brain Sagittal and Cortical Anatomy">
+  <defs>
+    <radialGradient id="cortexGrad" cx="45%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#eeddf5"/>
+      <stop offset="50%" stop-color="#d6b4e8"/>
+      <stop offset="100%" stop-color="#9c64c7"/>
+    </radialGradient>
+    <linearGradient id="callosumGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0e0e0"/>
+    </linearGradient>
+    <radialGradient id="thalamusGrad" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffcc80"/>
+      <stop offset="100%" stop-color="#ef6c00"/>
+    </radialGradient>
+    <linearGradient id="stemGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffe082"/>
+      <stop offset="100%" stop-color="#ffb300"/>
+    </linearGradient>
+    <radialGradient id="cerebellumGrad" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#f48fb1"/>
+      <stop offset="70%" stop-color="#ad1457"/>
+      <stop offset="100%" stop-color="#880e4f"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background / Cranial Cavity Tone -->
+  <rect width="320" height="240" fill="#f8f4fb"/>
+
+  <!-- Cranial Dura Mater & Calvarium Hint -->
+  <path d="M40 155 C30 70 85 20 185 20 C250 20 285 55 285 130 C285 160 265 175 250 175" fill="none" stroke="#e1bee7" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- CEREBRAL HEMISPHERE (Cortex with Sulci and Gyri) -->
+  <path d="M60 145 C45 130 45 95 65 65 C90 30 150 25 205 32 C265 40 280 85 275 125 C270 155 240 160 225 150 C210 140 170 145 155 145 C145 145 120 155 90 155 C75 155 65 152 60 145 Z" fill="url(#cortexGrad)" stroke="#6a1b9a" stroke-width="2.5"/>
+
+  <!-- Primary Sulci of Brain -->
+  <g fill="none" stroke="#4a148c" stroke-width="2" stroke-linecap="round">
+    <!-- Central Sulcus of Rolando -->
+    <path d="M175 32 C170 60 162 85 155 110"/>
+    <path d="M145 35 C142 58 135 78 130 95"/>
+    <path d="M205 40 C200 65 192 90 188 112"/>
+    <!-- Lateral Sulcus / Sylvian Fissure -->
+    <path d="M85 135 C115 135 155 125 195 110"/>
+    <path d="M255 70 C242 88 235 105 230 120"/>
+    <path d="M90 60 Q110 50 125 70 M80 90 Q105 85 120 105 M160 55 Q175 70 165 90 M230 50 Q250 65 245 90 M265 105 Q250 125 240 140"/>
+  </g>
+
+  <!-- CORPUS CALLOSUM -->
+  <path d="M110 120 C105 95 130 75 175 75 C215 75 225 95 220 115 C215 102 195 90 170 90 C135 90 120 102 118 120 Z" fill="url(#callosumGrad)" stroke="#7e57c2" stroke-width="1.8"/>
+
+  <!-- FORNIX & LATERAL VENTRICLE -->
+  <path d="M125 118 C135 105 165 102 195 112" stroke="#5c6bc0" stroke-width="2" fill="none"/>
+  <!-- Thalamus -->
+  <ellipse cx="170" cy="120" rx="18" ry="12" fill="url(#thalamusGrad)" stroke="#e65100" stroke-width="1.2"/>
+  <text x="156" y="123" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#ffffff">THALAMUS</text>
+  <path d="M142 125 L135 142" stroke="#e65100" stroke-width="2.5"/>
+  <circle cx="132" cy="148" r="4.5" fill="#ff7043" stroke="#d84315" stroke-width="1"/>
+
+  <!-- BRAINSTEM -->
+  <path d="M165 132 L165 150 L185 150 L185 132 Z" fill="url(#stemGrad)" stroke="#f57f17" stroke-width="1.2"/>
+  <path d="M160 150 C145 160 145 180 160 190 L182 190 L185 150 Z" fill="url(#stemGrad)" stroke="#f57f17" stroke-width="1.4"/>
+  <text x="150" y="173" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#b78103">PONS</text>
+  <path d="M160 190 L162 225 L178 225 L182 190 Z" fill="url(#stemGrad)" stroke="#f57f17" stroke-width="1.2"/>
+  <text x="144" y="210" font-family="system-ui, sans-serif" font-size="6.5" font-weight="700" fill="#b78103">MEDULLA</text>
+
+  <!-- CEREBELLUM -->
+  <g transform="translate(200, 145)">
+    <path d="M-15 0 C15 -25 55 -15 62 15 C68 40 45 65 15 65 C-5 65 -15 45 -18 25 Z" fill="url(#cerebellumGrad)" stroke="#880e4f" stroke-width="1.8"/>
+    <path d="M5 2 C25 -5 45 -2 55 12 M-5 15 C15 10 38 12 55 25 M-10 32 C10 28 32 32 45 45 M-8 48 C10 45 25 52 35 58" fill="none" stroke="#f8bbd0" stroke-width="1.2" opacity="0.7"/>
+    <path d="M-8 22 Q5 18 15 12 Q25 8 32 5 M15 12 Q20 22 30 25 M-2 28 Q8 32 20 38 Q25 45 28 50" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <text x="15" y="4" font-family="system-ui, sans-serif" font-size="6.5" font-weight="700" fill="#ffffff">CEREBELLUM</text>
+  </g>
+
+  <!-- Cortical Lobes Annotations -->
+  <g font-family="system-ui, sans-serif" font-size="7.5" font-weight="700" fill="#4a148c" opacity="0.85">
+    <text x="65" y="80">FRONTAL LOBE</text>
+    <text x="180" y="48">PARIETAL</text>
+    <text x="245" y="110">OCCIPITAL</text>
+    <text x="95" y="148">TEMPORAL</text>
+  </g>
+
+  <line x1="168" y1="26" x2="160" y2="45" stroke="#4a148c" stroke-width="1.2"/>
+  <text x="135" y="24" font-family="system-ui, sans-serif" font-size="6.5" font-weight="700" fill="#6a1b9a">CENTRAL SULCUS</text>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="138" height="18" rx="4" fill="#4a148c" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">BRAIN &amp; NEUROANATOMY</text>
+    <rect x="142" y="-14" width="98" height="18" rx="4" fill="#7b1fa2" opacity="0.95"/>
+    <text x="148" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">CEREBRAL CORTEX</text>
+  </g>
+</svg>

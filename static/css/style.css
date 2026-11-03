@@ -1,0 +1,282 @@
+/* ==========================================================================
+   AI-POWERED INTELLIGENT LMS - MODERN PREMIUM DESIGN SYSTEM
+   ========================================================================== */
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #e0e7ff;
+  --secondary: #0ea5e9;
+  --secondary-hover: #0284c7;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --dark-bg: #0f172a;
+  --dark-card: #1e293b;
+  --dark-border: #334155;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --bg-light: #f8fafc;
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  --card-hover-shadow: 0 20px 30px -10px rgba(79, 70, 229, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Glassmorphism & Modern Cards */
+.card-modern {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-modern:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-hover-shadow);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.glass-nav {
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient text & Badges */
+.gradient-text {
+  background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge-primary-soft {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+
+.badge-success-soft {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+
+.badge-warning-soft {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+
+.badge-danger-soft {
+  background-color: #fee2e2;
+  color: #991b1b;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+
+/* Category Hero Cards */
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.35s ease;
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+}
+
+.hero-card-hs::before {
+  background: linear-gradient(90deg, #10b981, #06b6d4);
+}
+
+.hero-card-puc::before {
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+}
+
+.hero-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 35px -12px rgba(79, 70, 229, 0.2);
+}
+
+/* MCQ Test Runner Styling */
+.question-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: #f1f5f9;
+  color: #334155;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #e2e8f0;
+}
+
+.question-badge:hover {
+  background-color: #e2e8f0;
+}
+
+.question-badge.active {
+  background-color: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.question-badge.answered {
+  background-color: #e0e7ff;
+  color: var(--primary);
+  border-color: #c7d2fe;
+}
+
+.option-box {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+}
+
+.option-box:hover {
+  border-color: #a5b4fc;
+  background-color: #f8fafc;
+}
+
+.option-box.selected {
+  border-color: var(--primary);
+  background-color: #eef2ff;
+}
+
+.option-box.correct-feedback {
+  border-color: #10b981 !important;
+  background-color: #ecfdf5 !important;
+}
+
+.option-box.incorrect-feedback {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+}
+
+.feedback-banner {
+  border-radius: 12px;
+  padding: 14px 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Games Arena Cards */
+.game-card {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+}
+
+.game-drop-zone {
+  min-height: 48px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  transition: background 0.2s;
+}
+
+.game-drop-zone.hovered {
+  background: #e0e7ff;
+  border-color: var(--primary);
+}
+
+.draggable-item {
+  cursor: grab;
+  user-select: none;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.draggable-item:active {
+  cursor: grabbing;
+}
+
+/* Mermaid Visual Container */
+.mermaid-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  overflow-x: auto;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* Metric Cards */
+.stat-card {
+  border-radius: 14px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--card-shadow);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+footer {
+  margin-top: auto;
+}

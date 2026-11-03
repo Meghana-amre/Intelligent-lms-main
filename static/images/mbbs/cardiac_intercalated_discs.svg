@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Cardiac Muscle Histology and Intercalated Discs">
+  <defs>
+    <linearGradient id="cardiomyocyteGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d84860"/>
+      <stop offset="50%" stop-color="#e85b73"/>
+      <stop offset="100%" stop-color="#c4324a"/>
+    </linearGradient>
+    <radialGradient id="cardiacNucleus" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ab47bc"/>
+      <stop offset="100%" stop-color="#4a148c"/>
+    </radialGradient>
+    <pattern id="striations" width="5" height="10" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#a32038" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+  </defs>
+
+  <!-- Background / Interstitial Endomysial Stroma -->
+  <rect width="320" height="240" fill="#fae8ee"/>
+
+  <!-- Cardiac Muscle Fibers (Longitudinal Striated Branching Bundle) -->
+  <g>
+    <!-- Upper Main Fiber with Branch -->
+    <path d="M0 35 Q100 30 160 40 Q220 50 320 35 L320 75 Q240 85 180 75 L180 100 Q120 105 0 95 Z" fill="url(#cardiomyocyteGrad)"/>
+    <path d="M0 35 Q100 30 160 40 Q220 50 320 35 L320 75 Q240 85 180 75 L180 100 Q120 105 0 95 Z" fill="url(#striations)"/>
+
+    <!-- Middle Branch connecting to Upper Fiber -->
+    <path d="M180 75 Q230 80 320 115 L320 150 Q220 120 160 115 L160 90 Z" fill="url(#cardiomyocyteGrad)"/>
+    <path d="M180 75 Q230 80 320 115 L320 150 Q220 120 160 115 L160 90 Z" fill="url(#striations)"/>
+
+    <!-- Lower Main Fiber -->
+    <path d="M0 120 Q90 125 150 115 Q210 105 320 130 L320 175 Q230 160 160 170 Q90 180 0 170 Z" fill="url(#cardiomyocyteGrad)"/>
+    <path d="M0 120 Q90 125 150 115 Q210 105 320 130 L320 175 Q230 160 160 170 Q90 180 0 170 Z" fill="url(#striations)"/>
+
+    <!-- Bottom Fiber -->
+    <path d="M0 185 Q110 195 200 185 Q260 180 320 195 L320 235 L0 235 Z" fill="url(#cardiomyocyteGrad)"/>
+    <path d="M0 185 Q110 195 200 185 Q260 180 320 195 L320 235 L0 235 Z" fill="url(#striations)"/>
+  </g>
+
+  <!-- INTERCALATED DISCS (Key MBBS Histological Diagnostic Hallmark: Dark, Step-like Transverse Bands) -->
+  <g stroke="#210010" stroke-width="3.5" stroke-linecap="square">
+    <!-- Disc 1 (Upper Fiber - Stepped) -->
+    <path d="M95 34 L95 52 L102 52 L102 70 L98 70 L98 90"/>
+    <!-- Disc 2 (Upper Fiber - Distal) -->
+    <path d="M250 42 L250 60 L256 60 L256 80"/>
+    <!-- Disc 3 (Branch - Stepped) -->
+    <path d="M225 90 L225 106 L232 106 L232 125"/>
+    <!-- Disc 4 (Lower Fiber - Prominent Stepped) -->
+    <path d="M125 120 L125 142 L133 142 L133 172"/>
+    <!-- Disc 5 (Lower Fiber - Distal) -->
+    <path d="M275 142 L275 168"/>
+    <!-- Disc 6 (Bottom Fiber) -->
+    <path d="M165 186 L165 205 L172 205 L172 230"/>
+  </g>
+
+  <!-- Central Vesicular Nuclei with Perinuclear Clear Halos (Glycogen clear zone) -->
+  <!-- Nucleus 1 (Upper Fiber) -->
+  <ellipse cx="50" cy="62" rx="15" ry="8" fill="#ffebee" opacity="0.6"/>
+  <ellipse cx="50" cy="62" rx="10" ry="5.5" fill="url(#cardiacNucleus)"/>
+  <circle cx="49" cy="62" r="1.5" fill="#ffffff" opacity="0.8"/>
+
+  <!-- Nucleus 2 (Upper Fiber - Middle) -->
+  <ellipse cx="170" cy="55" rx="16" ry="8" fill="#ffebee" opacity="0.6"/>
+  <ellipse cx="170" cy="55" rx="11" ry="5.5" fill="url(#cardiacNucleus)"/>
+
+  <!-- Nucleus 3 (Lower Fiber) -->
+  <ellipse cx="60" cy="145" rx="17" ry="8.5" fill="#ffebee" opacity="0.6"/>
+  <ellipse cx="60" cy="145" rx="12" ry="6" fill="url(#cardiacNucleus)"/>
+
+  <!-- Nucleus 4 (Lower Fiber - Center) -->
+  <ellipse cx="205" cy="142" rx="16" ry="8.5" fill="#ffebee" opacity="0.6"/>
+  <ellipse cx="205" cy="142" rx="11" ry="6" fill="url(#cardiacNucleus)"/>
+
+  <!-- Interstitial Blood Capillaries with RBCs -->
+  <g fill="#e53935">
+    <ellipse cx="110" cy="108" rx="4" ry="3"/>
+    <ellipse cx="120" cy="107" rx="3.8" ry="2.8"/>
+  </g>
+
+  <!-- Indicator Arrows & Notes -->
+  <g stroke="#ffffff" stroke-width="1.5" fill="none">
+    <path d="M110 15 L100 32"/>
+  </g>
+  <text x="115" y="18" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#880e4f">INTERCALATED DISC</text>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="138" height="18" rx="4" fill="#b71c1c" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">CARDIAC MUSCLE</text>
+    <rect x="142" y="-14" width="108" height="18" rx="4" fill="#4a148c" opacity="0.95"/>
+    <text x="148" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">INTERCALATED DISCS</text>
+  </g>
+</svg>

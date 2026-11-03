@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block title %}ML Explainability & Benchmark Analytics - IntelliLearn{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Header Banner -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card glass-card border-0 rounded-4 p-4 shadow-sm position-relative overflow-hidden">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fa-solid fa-microchip me-1"></i> Machine Learning Core</span>
+              <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill"><i class="fa-solid fa-check-circle me-1"></i> 1,200 Benchmark Samples</span>
+            </div>
+            <h2 class="fw-bold mb-1">Empirical ML Model Evaluation & Explainability</h2>
+            <p class="text-secondary mb-0">Transparent performance analytics, multi-model cross-validation, and feature attribution for academic review.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary rounded-pill px-4">
+              <i class="fa-solid fa-arrow-left me-1"></i> Dashboard
+            </a>
+            <a href="/api/ml/metrics" target="_blank" class="btn btn-primary rounded-pill px-4">
+              <i class="fa-solid fa-code me-1"></i> Raw JSON Metrics
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Metrics Row -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card glass-card border-0 rounded-4 p-3 shadow-sm h-100 text-center">
+        <div class="stat-icon bg-primary text-white mx-auto mb-2" style="width: 48px; height: 48px; border-radius: 12px; font-size: 1.25rem;">
+          <i class="fa-solid fa-database"></i>
+        </div>
+        <h4 class="fw-bold mb-0">{{ metrics.dataset_info.total_samples }}</h4>
+        <small class="text-secondary">Benchmark Student Records</small>
+        <div class="text-muted mt-1" style="font-size: 0.75rem;">80% Train ({{ metrics.dataset_info.train_samples }}) / 20% Test ({{ metrics.dataset_info.test_samples }})</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card glass-card border-0 rounded-4 p-3 shadow-sm h-100 text-center">
+        <div class="stat-icon bg-success text-white mx-auto mb-2" style="width: 48px; height: 48px; border-radius: 12px; font-size: 1.25rem;">
+          <i class="fa-solid fa-bullseye"></i>
+        </div>
+        <h4 class="fw-bold mb-0 text-success">{{ metrics.model_comparison[0].accuracy }}%</h4>
+        <small class="text-secondary">Top Model Accuracy</small>
+        <div class="text-muted mt-1" style="font-size: 0.75rem;">{{ metrics.model_comparison[0].model_name }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card glass-card border-0 rounded-4 p-3 shadow-sm h-100 text-center">
+        <div class="stat-icon bg-info text-white mx-auto mb-2" style="width: 48px; height: 48px; border-radius: 12px; font-size: 1.25rem;">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <h4 class="fw-bold mb-0 text-info">{{ metrics.model_comparison[0].f1_score }}%</h4>
+        <small class="text-secondary">Weighted F1-Score</small>
+        <div class="text-muted mt-1" style="font-size: 0.75rem;">Harmonic Mean of Precision & Recall</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card glass-card border-0 rounded-4 p-3 shadow-sm h-100 text-center">
+        <div class="stat-icon bg-purple text-white mx-auto mb-2" style="width: 48px; height: 48px; border-radius: 12px; font-size: 1.25rem;">
+          <i class="fa-solid fa-diagram-project"></i>
+        </div>
+        <h4 class="fw-bold mb-0 text-purple">{{ metrics.dataset_info.feature_count }}</h4>
+        <small class="text-secondary">Input Diagnostic Features</small>
+        <div class="text-muted mt-1" style="font-size: 0.75rem;">Hours, Attendance, Past Score, etc.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model Comparison Table -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card glass-card border-0 rounded-4 p-4 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold mb-0"><i class="fa-solid fa-trophy text-warning me-2"></i>Multi-Model Benchmarking Leaderboard</h5>
+          <span class="badge bg-light text-dark border">Stratified 5-Class Evaluation</span>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Machine Learning Classifier</th>
+                <th class="text-center">Accuracy (%)</th>
+                <th class="text-center">Precision (%)</th>
+                <th class="text-center">Recall (%)</th>
+                <th class="text-center">F1-Score (%)</th>
+                <th class="text-center">Academic Suitability</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for m in metrics.model_comparison %}
+              <tr {% if m.get('best') %}class="table-primary-subtle fw-semibold"{% endif %}>
+                <td>
+                  <i class="fa-solid fa-robot text-primary me-2"></i>{{ m.model_name }}
+                  {% if m.get('best') %}
+                  <span class="badge bg-primary ms-2">Top Performer</span>
+                  {% endif %}
+                </td>
+                <td class="text-center"><span class="badge bg-success-subtle text-success fs-6">{{ m.accuracy }}%</span></td>
+                <td class="text-center">{{ m.precision }}%</td>
+                <td class="text-center">{{ m.recall }}%</td>
+                <td class="text-center"><span class="badge bg-info-subtle text-info fs-6">{{ m.f1_score }}%</span></td>
+                <td class="text-center">
+                  {% if 'Random Forest' in m.model_name %}
+                  <span class="text-success"><i class="fa-solid fa-check me-1"></i>High Generalization & Low Variance</span>
+                  {% elif 'Decision Tree' in m.model_name %}
+                  <span class="text-primary"><i class="fa-solid fa-code-branch me-1"></i>White-box Explainable Rules</span>
+                  {% else %}
+                  <span class="text-secondary"><i class="fa-solid fa-chart-line me-1"></i>Linear Baseline Benchmark</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual Analytics: Feature Importance & Confusion Matrix -->
+  <div class="row g-4 mb-4">
+    <!-- Feature Importance Bar Chart -->
+    <div class="col-lg-6">
+      <div class="card glass-card border-0 rounded-4 p-4 shadow-sm h-100">
+        <h5 class="fw-bold mb-1"><i class="fa-solid fa-chart-bar text-primary me-2"></i>Feature Importance Weighting</h5>
+        <p class="text-secondary small mb-3">Relative percentage contribution of educational attributes according to Random Forest Gini impurity reduction.</p>
+        <div style="height: 320px;">
+          <canvas id="featureImportanceChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confusion Matrix Heatmap -->
+    <div class="col-lg-6">
+      <div class="card glass-card border-0 rounded-4 p-4 shadow-sm h-100">
+        <h5 class="fw-bold mb-1"><i class="fa-solid fa-table-cells text-success me-2"></i>Confusion Matrix (Test Set N=240)</h5>
+        <p class="text-secondary small mb-3">Predicted class vs. Ground Truth distribution across all 5 performance levels.</p>
+        <div class="table-responsive">
+          <table class="table table-bordered text-center align-middle small mb-0" style="font-size: 0.85rem;">
+            <thead class="table-dark">
+              <tr>
+                <th style="width: 25%;">Actual \ Predicted</th>
+                {% for label in metrics.confusion_matrix.labels %}
+                <th>{{ label }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in metrics.confusion_matrix.matrix %}
+              {% set row_index = loop.index0 %}
+              {% set actual_label = metrics.confusion_matrix.labels[row_index] %}
+              <tr>
+                <td class="fw-bold bg-light">{{ actual_label }}</td>
+                {% for cell in row %}
+                {% set is_diag = loop.index0 == row_index %}
+                <td class="{% if is_diag and cell > 0 %}bg-success text-white fw-bold{% elif cell > 0 %}bg-warning-subtle text-dark{% else %}text-muted{% endif %}">
+                  {{ cell }}
+                </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-3 text-muted small text-center">
+          <span class="badge bg-success me-1">Green</span> Diagonal cells represent correct classifications (True Positives).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Academic Citations & Viva Notes -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card glass-card border-0 rounded-4 p-4 shadow-sm">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-graduation-cap text-purple me-2"></i>Academic Methodology & Viva Defense Points</h5>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100">
+              <h6 class="fw-bold text-primary mb-1">Decision Tree (CART)</h6>
+              <p class="small text-secondary mb-0">Splits nodes using <em>Gini Impurity</em> ($Gini = 1 - \sum p_i^2$). Max depth constrained to 5 to prevent overfitting on outlier student study habits.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100">
+              <h6 class="fw-bold text-success mb-1">Random Forest Ensemble</h6>
+              <p class="small text-secondary mb-0">Constructs 100 decorrelated decision trees using Bootstrap Aggregation (Bagging) and random feature subspace selection, achieving robust generalization.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100">
+              <h6 class="fw-bold text-info mb-1">K-Means Student Clustering</h6>
+              <p class="small text-secondary mb-0">Unsupervised Euclidean partitioning into 3 mastery clusters: High Mastery, Intermediate Proficiency, and Developing Foundation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Chart.js Configuration for Feature Importance -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const featureData = {{ metrics.feature_importance | tojson }};
+    const labels = featureData.map(item => item.feature);
+    const rfValues = featureData.map(item => item.rf_importance);
+    const dtValues = featureData.map(item => item.dt_importance);
+
+    const ctx = document.getElementById('featureImportanceChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Random Forest Weight (%)',
+            data: rfValues,
+            backgroundColor: 'rgba(59, 130, 246, 0.85)',
+            borderRadius: 6
+          },
+          {
+            label: 'Decision Tree Weight (%)',
+            data: dtValues,
+            backgroundColor: 'rgba(16, 185, 129, 0.85)',
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom' }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Importance Contribution (%)' },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

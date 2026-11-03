@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Haversian System Osteon Bone Histology">
+  <defs>
+    <radialGradient id="boneMatrix" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#efebe9"/>
+      <stop offset="60%" stop-color="#d7ccc8"/>
+      <stop offset="100%" stop-color="#bcaaa4"/>
+    </radialGradient>
+    <radialGradient id="haversianCanal" cx="45%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#3e2723"/>
+      <stop offset="65%" stop-color="#1b0000"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background: Calcified Bone Matrix -->
+  <rect width="320" height="240" fill="url(#boneMatrix)"/>
+
+  <!-- Outer Cement Line (Boundary of Osteon) -->
+  <ellipse cx="160" cy="115" rx="135" ry="105" fill="none" stroke="#5d4037" stroke-width="2.5" stroke-dasharray="8 4"/>
+
+  <!-- Concentric Lamellae (Concentric Rings of Bone Matrix) -->
+  <g fill="none" stroke="#8d6e63" stroke-width="1.2" opacity="0.6">
+    <ellipse cx="160" cy="115" rx="115" ry="88"/>
+    <ellipse cx="160" cy="115" rx="95" ry="72"/>
+    <ellipse cx="160" cy="115" rx="75" ry="56"/>
+    <ellipse cx="160" cy="115" rx="55" ry="40"/>
+    <ellipse cx="160" cy="115" rx="35" ry="25"/>
+  </g>
+
+  <!-- Radiating Canaliculi (Spiderweb-like microscopic microcanals) -->
+  <g stroke="#6d4c41" stroke-width="0.75" opacity="0.55">
+    <!-- Radials from center outwards -->
+    <line x1="160" y1="115" x2="60" y2="40"/><line x1="160" y1="115" x2="160" y2="15"/>
+    <line x1="160" y1="115" x2="260" y2="40"/><line x1="160" y1="115" x2="295" y2="115"/>
+    <line x1="160" y1="115" x2="260" y2="190"/><line x1="160" y1="115" x2="160" y2="218"/>
+    <line x1="160" y1="115" x2="60" y2="190"/><line x1="160" y1="115" x2="25" y2="115"/>
+    <line x1="160" y1="115" x2="100" y2="25"/><line x1="160" y1="115" x2="220" y2="25"/>
+    <line x1="160" y1="115" x2="285" y2="80"/><line x1="160" y1="115" x2="285" y2="150"/>
+    <line x1="160" y1="115" x2="220" y2="205"/><line x1="160" y1="115" x2="100" y2="205"/>
+    <line x1="160" y1="115" x2="35" y2="150"/><line x1="160" y1="115" x2="35" y2="80"/>
+  </g>
+
+  <!-- Osteocytes housed in Lacunae (Dark oval bodies arranged in concentric circles) -->
+  <g fill="#27130c" stroke="#1b0000" stroke-width="0.8">
+    <!-- Lamella Ring 1 (Closest to canal) -->
+    <ellipse cx="140" cy="95" rx="5" ry="2.5" transform="rotate(30 140 95)"/>
+    <ellipse cx="180" cy="95" rx="5" ry="2.5" transform="rotate(-30 180 95)"/>
+    <ellipse cx="188" cy="120" rx="5" ry="2.5" transform="rotate(80 188 120)"/>
+    <ellipse cx="172" cy="138" rx="5" ry="2.5" transform="rotate(25 172 138)"/>
+    <ellipse cx="145" cy="136" rx="5" ry="2.5" transform="rotate(-25 145 136)"/>
+    <ellipse cx="130" cy="116" rx="5" ry="2.5" transform="rotate(-80 130 116)"/>
+
+    <!-- Lamella Ring 2 -->
+    <ellipse cx="120" cy="80" rx="6" ry="3" transform="rotate(35 120 80)"/>
+    <ellipse cx="160" cy="68" rx="6" ry="3"/>
+    <ellipse cx="205" cy="80" rx="6" ry="3" transform="rotate(-35 205 80)"/>
+    <ellipse cx="225" cy="115" rx="6" ry="3" transform="rotate(85 225 115)"/>
+    <ellipse cx="205" cy="150" rx="6" ry="3" transform="rotate(30 205 150)"/>
+    <ellipse cx="160" cy="162" rx="6" ry="3"/>
+    <ellipse cx="115" cy="150" rx="6" ry="3" transform="rotate(-30 115 150)"/>
+    <ellipse cx="95" cy="115" rx="6" ry="3" transform="rotate(-85 95 115)"/>
+
+    <!-- Lamella Ring 3 (Outer) -->
+    <ellipse cx="100" cy="55" rx="6.5" ry="3.2" transform="rotate(30 100 55)"/>
+    <ellipse cx="160" cy="40" rx="6.5" ry="3.2"/>
+    <ellipse cx="225" cy="55" rx="6.5" ry="3.2" transform="rotate(-30 225 55)"/>
+    <ellipse cx="260" cy="115" rx="6.5" ry="3.2" transform="rotate(90 260 115)"/>
+    <ellipse cx="230" cy="175" rx="6.5" ry="3.2" transform="rotate(25 230 175)"/>
+    <ellipse cx="160" cy="190" rx="6.5" ry="3.2"/>
+    <ellipse cx="90" cy="175" rx="6.5" ry="3.2" transform="rotate(-25 90 175)"/>
+    <ellipse cx="60" cy="115" rx="6.5" ry="3.2" transform="rotate(-90 60 115)"/>
+  </g>
+
+  <!-- CENTRAL HAVERSIAN CANAL (Transverse Lumen with Blood Vessels & Nerve) -->
+  <g transform="translate(160, 115)">
+    <!-- Lumen -->
+    <ellipse cx="0" cy="0" rx="22" ry="16" fill="url(#haversianCanal)" stroke="#4e342e" stroke-width="2"/>
+    <!-- Endothelial lining -->
+    <ellipse cx="0" cy="0" rx="20" ry="14.5" fill="none" stroke="#ffccbc" stroke-width="0.8" opacity="0.4"/>
+    <!-- Central Capillary Artery -->
+    <circle cx="-6" cy="-2" r="4.5" fill="#e53935" stroke="#b71c1c" stroke-width="1"/>
+    <!-- Capillary Vein -->
+    <ellipse cx="6" cy="1" rx="5" ry="3.5" fill="#1e88e5" stroke="#0d47a1" stroke-width="1"/>
+    <!-- Nerve Fiber -->
+    <circle cx="0" cy="7" r="2.5" fill="#fdd835" stroke="#f57f17" stroke-width="0.8"/>
+  </g>
+
+  <!-- Volkmann's Canal entering from bottom-left (perpendicular perforating canal) -->
+  <path d="M70 200 Q110 160 145 125" stroke="#27130c" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.75"/>
+
+  <!-- Indicator Text -->
+  <text x="14" y="24" font-family="system-ui, sans-serif" font-size="7.5" font-weight="700" fill="#4e342e">CONCENTRIC LAMELLAE</text>
+  <text x="210" y="24" font-family="system-ui, sans-serif" font-size="7.5" font-weight="700" fill="#4e342e">OSTEOCYTE LACUNAE</text>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="138" height="18" rx="4" fill="#3e2723" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">HAVERSIAN OSTEON</text>
+    <rect x="142" y="-14" width="102" height="18" rx="4" fill="#6d4c41" opacity="0.95"/>
+    <text x="148" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">BONE HISTOLOGY</text>
+  </g>
+</svg>

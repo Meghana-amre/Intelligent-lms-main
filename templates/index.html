@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - AI-Powered Intelligent LMS{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <!-- Welcome Header -->
+  <div class="row align-items-center mb-5 gy-3">
+    <div class="col-lg-8">
+      <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-primary-subtle text-primary border border-primary-subtle mb-2">
+        <i class="fa-solid fa-sparkles"></i>
+        <small class="fw-semibold">Intelligent Self-Learning & Self-Assessment Platform</small>
+      </div>
+      <h1 class="display-5 fw-bold text-dark mb-2">
+        Select Your <span class="gradient-text">Academic Category</span>
+      </h1>
+      <p class="lead text-muted mb-0">
+        Choose your learning track below to access customized subject assessments, educational IQ games, theory-to-visual mapping, and ML performance analytics.
+      </p>
+    </div>
+    <div class="col-lg-4 text-lg-end">
+      <div class="stat-card d-inline-block text-start p-3 bg-white">
+        <div class="d-flex align-items-center gap-3">
+          <div class="stat-icon bg-primary-subtle text-primary">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <div class="text-muted small fw-medium">Learning Platform</div>
+            <div class="fw-bold text-dark">AI-Powered Assessment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Two Main Category Cards -->
+  <div class="row g-4 mb-5">
+
+    {% if student.category == 'highschool' %}
+    <!-- 1. HIGH SCHOOL STUDENTS CARD -->
+    <div class="col-lg-6">
+      <div class="card card-modern hero-card hero-card-hs h-100 p-4">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div class="stat-icon bg-success text-white">
+            <i class="fa-solid fa-school"></i>
+          </div>
+          <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold">
+            Grades 8 - 10
+          </span>
+        </div>
+
+        <h3 class="fw-bold text-dark mb-2">HIGH SCHOOL STUDENTS</h3>
+        <p class="text-muted mb-4">
+          Interactive subject mastery, foundational STEM assessments, IQ development games, visual theory mapping, and newspaper summarization.
+        </p>
+
+        <div class="d-flex align-items-center gap-3 bg-success-subtle border border-success-subtle rounded-3 p-3 mb-4">
+          <i class="fa-solid fa-id-card text-success fs-4"></i>
+          <div>
+            <div class="text-muted small">Student ID Credential</div>
+            <strong class="text-dark">ID: {{ hs_student.id }} &middot; {{ hs_student.name }}</strong>
+          </div>
+        </div>
+
+        <!-- High School Modules Overview -->
+        <div class="bg-light p-3 rounded-4 mb-4 border border-light-subtle">
+          <div class="fw-semibold text-dark small mb-2 text-uppercase tracking-wider">Included Core Modules:</div>
+          <div class="row g-2">
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                <span>Advanced Subject Mastery Challenge</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                <span>Educational & IQ Games</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                <span>Map Method (Flowcharts)</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                <span>Newspaper Summarizer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Activity Status -->
+        <div class="d-flex justify-content-between align-items-center mb-4 pt-2 border-top">
+          <span class="text-muted small">Completed Tests: <strong class="text-dark">{{ hs_data.total_tests }}</strong></span>
+          <span class="text-muted small">Avg Score: <strong class="text-success">{{ hs_data.average_score }}%</strong></span>
+          <span class="badge bg-primary-subtle text-primary">{{ hs_data.ml_predicted_level }}</span>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-auto">
+          <a href="{{ url_for('highschool_dashboard') }}" class="btn btn-success btn-lg w-100 py-3 rounded-4 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+            <span>Enter High School Hub</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if student.category == 'puc_degree' %}
+    <!-- 2. PUC & DEGREE STUDENTS CARD -->
+    <div class="col-lg-6">
+      <div class="card card-modern hero-card hero-card-puc h-100 p-4">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div class="stat-icon bg-primary text-white">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-bold">
+            PUC, B.E., B.Tech & Degree
+          </span>
+        </div>
+
+        <h3 class="fw-bold text-dark mb-2">PUC & DEGREE STUDENTS</h3>
+        <p class="text-muted mb-4">
+          Advanced computer science aptitude, data structures, algorithms, OOPS, core systems, and AI readiness assessment with deep analytics.
+        </p>
+
+        <div class="d-flex align-items-center gap-3 bg-primary-subtle border border-primary-subtle rounded-3 p-3 mb-4">
+          <i class="fa-solid fa-id-card text-primary fs-4"></i>
+          <div>
+            <div class="text-muted small">Student ID Credential</div>
+            <strong class="text-dark">ID: {{ puc_student.id }} &middot; {{ puc_student.name }}</strong>
+          </div>
+        </div>
+
+        <!-- Technical Modules Overview -->
+        <div class="bg-light p-3 rounded-4 mb-4 border border-light-subtle">
+          <div class="fw-semibold text-dark small mb-2 text-uppercase tracking-wider">Included Core Modules:</div>
+          <div class="row g-2">
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-primary"></i>
+                <span>CET, JEE &amp; DSA Aptitude MCQs</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-primary"></i>
+                <span>Topic Progression Order</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-primary"></i>
+                <span>Technical Analytics Charts</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <i class="fa-solid fa-circle-check text-primary"></i>
+                <span>Adaptive Topic Drills</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Activity Status -->
+        <div class="d-flex justify-content-between align-items-center mb-4 pt-2 border-top">
+          <span class="text-muted small">Completed Tests: <strong class="text-dark">{{ puc_data.total_tests }}</strong></span>
+          <span class="text-muted small">Avg Score: <strong class="text-primary">{{ puc_data.average_score }}%</strong></span>
+          <span class="badge bg-primary-subtle text-primary">{{ puc_data.ml_predicted_level }}</span>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-auto">
+          <a href="{{ url_for('puc_degree_dashboard') }}" class="btn btn-primary btn-lg w-100 py-3 rounded-4 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+            <span>Enter Technical Hub</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+
+</div>
+{% endblock %}

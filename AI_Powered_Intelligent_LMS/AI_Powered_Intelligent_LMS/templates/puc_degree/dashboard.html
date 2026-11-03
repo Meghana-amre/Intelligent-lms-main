@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Technical Assessment Hub - PUC & Degree{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">PUC & Degree Technical Hub</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-3">
+    <div>
+      <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill fw-semibold mb-2">
+        <i class="fa-solid fa-code me-1"></i> Technical & Engineering Track
+      </span>
+      <h1 class="display-6 fw-bold text-dark mb-1">Technical Aptitude & Logical Assessment Hub</h1>
+      <p class="text-muted mb-0">Rigorous 100-question computer science evaluation covering Data Structures, Algorithms, Systems, and AI.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('puc_degree_test') }}" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
+        <i class="fa-solid fa-play me-1"></i> Start 100-Q Test
+      </a>
+      <a href="{{ url_for('puc_degree_performance') }}" class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold">
+        <i class="fa-solid fa-chart-pie me-1"></i> Performance
+      </a>
+    </div>
+  </div>
+
+  <!-- Summary Stats Bar -->
+  <div class="row g-3 mb-5">
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Tests Attempted</div>
+        <div class="h3 fw-bold text-dark mb-0">{{ perf.total_tests }}</div>
+        <small class="text-muted">Completed sessions</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Average Score</div>
+        <div class="h3 fw-bold text-primary mb-0">{{ perf.average_score }}%</div>
+        <small class="text-muted">Technical accuracy</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Performance Tier</div>
+        <div class="h3 fw-bold text-success mb-0">{{ perf.ml_predicted_level }}</div>
+        <small class="text-muted">ML classification</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Questions Attempted</div>
+        <div class="h3 fw-bold text-dark mb-0">{{ perf.total_questions }}</div>
+        <small class="text-muted">{{ perf.total_correct }} Correct answers</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Modules for PUC & Degree -->
+  <div class="row g-4 mb-5">
+
+    <!-- MODULE 1: 100-QUESTION TECHNICAL ASSESSMENT -->
+    <div class="col-lg-8">
+      <div class="card card-modern p-4 p-md-5 h-100 border-top border-4 border-primary">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div class="stat-icon bg-primary-subtle text-primary">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-bold">
+            100 Questions &bull; Zero Duplicates
+          </span>
+        </div>
+
+        <h4 class="fw-bold text-dark mb-2">Technical Aptitude & Logical Assessment</h4>
+        <p class="text-muted mb-4">
+          Industry-aligned examination progressing systematically through fundamental data structures, algorithm analysis, object-oriented software design, system architectures, and machine intelligence.
+        </p>
+
+        <!-- Topic Progression Visualization -->
+        <div class="bg-light p-3 rounded-4 border mb-4">
+          <div class="small fw-bold text-dark text-uppercase mb-2">Structured Progression Order:</div>
+          <div class="d-flex flex-wrap align-items-center gap-1 small text-muted">
+            <span class="badge bg-white text-dark border">Arrays</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">Strings</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">Linked Lists</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">Stacks & Queues</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">Sorting & Searching</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">Trees & Graphs</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">OOPS (Java/C++/Python)</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">Networks & OS</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-white text-dark border">DBMS</span>
+            <i class="fa-solid fa-chevron-right text-muted opacity-50" style="font-size: 0.7rem;"></i>
+            <span class="badge bg-primary text-white">ML & AI</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{{ url_for('puc_degree_test') }}" class="btn btn-primary btn-lg px-4 py-3 rounded-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <span>Launch 100-Question Assessment</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 2: PERFORMANCE DASHBOARD PREVIEW -->
+    <div class="col-lg-4">
+      <div class="card card-modern p-4 h-100 border-top border-4 border-success d-flex flex-column">
+        <div class="stat-icon bg-success-subtle text-success mb-3">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <h5 class="fw-bold text-dark mb-2">Technical Performance Analytics</h5>
+        <p class="text-muted small mb-4">
+          Detailed technical radar charts, topic mastery bars, strong and weak area diagnostic breakdown, and automated recommendation engine.
+        </p>
+
+        <div class="p-3 bg-light rounded-3 border mb-4 mt-auto small">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Top Strong Topic:</span>
+            <strong class="text-success">{{ perf.strong_subjects[0] if perf.strong_subjects else 'Pending evaluation' }}</strong>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="text-muted">Priority Focus Topic:</span>
+            <strong class="text-danger">{{ perf.weak_subjects[0] if perf.weak_subjects else 'All topics stable' }}</strong>
+          </div>
+        </div>
+
+        <a href="{{ url_for('puc_degree_performance') }}" class="btn btn-outline-success w-100 rounded-pill fw-bold">
+          <i class="fa-solid fa-chart-line me-1"></i> Open Performance Dashboard
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

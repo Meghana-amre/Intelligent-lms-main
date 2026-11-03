@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+
+{% block title %}Educational & IQ Games Arena - High School{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('highschool_dashboard') }}" class="text-decoration-none">High School</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Educational & IQ Games</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+      <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+        <i class="fa-solid fa-gamepad me-1"></i> Brain Training & Recall
+      </span>
+      <h1 class="display-6 fw-bold text-dark mb-1">Educational & IQ Games Arena</h1>
+      <p class="text-muted mb-0">Sharpen IQ, memory, pattern recognition, and subject recall across 5 educational games.</p>
+    </div>
+    <a href="{{ url_for('highschool_performance') }}" class="btn btn-outline-primary px-4 py-2 rounded-pill fw-semibold">
+      <i class="fa-solid fa-chart-line me-1"></i> View Game Analytics
+    </a>
+  </div>
+
+  <!-- Game Navigation Tabs -->
+  <ul class="nav nav-pills mb-4 gap-2 border-bottom pb-3" id="gamesTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active rounded-pill fw-bold px-4" id="bio-tab" data-bs-toggle="pill" data-bs-target="#game-bio" type="button">
+        <i class="fa-solid fa-heart-pulse me-1 text-danger"></i> Biology Organs
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-pill fw-bold px-4" id="math-tab" data-bs-toggle="pill" data-bs-target="#game-math" type="button">
+        <i class="fa-solid fa-calculator me-1 text-primary"></i> Math Patterns
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-pill fw-bold px-4" id="history-tab" data-bs-toggle="pill" data-bs-target="#game-history" type="button">
+        <i class="fa-solid fa-timeline me-1 text-warning"></i> History Timeline
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-pill fw-bold px-4" id="geo-tab" data-bs-toggle="pill" data-bs-target="#game-geo" type="button">
+        <i class="fa-solid fa-earth-americas me-1 text-info"></i> Geography Capitals
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-pill fw-bold px-4" id="odd-tab" data-bs-toggle="pill" data-bs-target="#game-odd" type="button">
+        <i class="fa-solid fa-lightbulb me-1 text-success"></i> GK Odd-One-Out
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab Contents -->
+  <div class="tab-content" id="gamesTabContent">
+
+    <!-- GAME 1: BIOLOGY DIAGRAM & FUNCTION -->
+    <div class="tab-pane fade show active" id="game-bio" role="tabpanel">
+      <div class="card card-modern p-4 p-md-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 border-bottom pb-3">
+          <div>
+            <h4 class="fw-bold text-dark mb-1">Human Heart & Organ Function Matching</h4>
+            <p class="text-muted small mb-0">Match the physiological description with the correct organ or heart chamber.</p>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6">Score: <strong id="bioScore" class="text-danger">0</strong></span>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="initBiologyGame()">
+              <i class="fa-solid fa-rotate-right me-1"></i> Restart
+            </button>
+          </div>
+        </div>
+
+        <div id="bioQuestionArea" class="py-3"></div>
+        <div id="bioFeedback"></div>
+
+        <div class="text-end mt-4">
+          <button id="bioNextBtn" class="btn btn-primary px-4 py-2 rounded-pill fw-bold d-none">
+            Next Organ <i class="fa-solid fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME 2: MATH SEQUENCE PUZZLE -->
+    <div class="tab-pane fade" id="game-math" role="tabpanel">
+      <div class="card card-modern p-4 p-md-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 border-bottom pb-3">
+          <div>
+            <h4 class="fw-bold text-dark mb-1">Mathematical Sequences & Number Reasoning</h4>
+            <p class="text-muted small mb-0">Deduce the mathematical progression formula and determine the missing term.</p>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6">Score: <strong id="mathScore" class="text-primary">0</strong></span>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="initMathGame()">
+              <i class="fa-solid fa-rotate-right me-1"></i> Restart
+            </button>
+          </div>
+        </div>
+
+        <div id="mathQuestionArea" class="py-3"></div>
+        <div id="mathFeedback"></div>
+
+        <div class="text-end mt-4">
+          <button id="mathNextBtn" class="btn btn-primary px-4 py-2 rounded-pill fw-bold d-none">
+            Next Puzzle <i class="fa-solid fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME 3: HISTORY CHRONOLOGY -->
+    <div class="tab-pane fade" id="game-history" role="tabpanel">
+      <div class="card card-modern p-4 p-md-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 border-bottom pb-3">
+          <div>
+            <h4 class="fw-bold text-dark mb-1">Historical Milestone Chronology</h4>
+            <p class="text-muted small mb-0">Click the historical events in chronological order from earliest to most recent.</p>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6">Score: <strong id="historyScore" class="text-warning">0</strong></span>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="initHistoryGame()">
+              <i class="fa-solid fa-rotate-right me-1"></i> Restart
+            </button>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <h6 class="fw-bold text-dark mb-2">Available Historic Events:</h6>
+            <div id="historyPool" class="p-3 bg-light rounded-4 border min-vh-25"></div>
+          </div>
+          <div class="col-md-6">
+            <h6 class="fw-bold text-dark mb-2">Your Chronological Timeline:</h6>
+            <div id="historyTarget" class="p-3 bg-light rounded-4 border min-vh-25"></div>
+          </div>
+        </div>
+        <div id="historyFeedback" class="mt-3"></div>
+      </div>
+    </div>
+
+    <!-- GAME 4: GEOGRAPHY CAPITALS -->
+    <div class="tab-pane fade" id="game-geo" role="tabpanel">
+      <div class="card card-modern p-4 p-md-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 border-bottom pb-3">
+          <div>
+            <h4 class="fw-bold text-dark mb-1">Country & Capital Pair Matching</h4>
+            <p class="text-muted small mb-0">Select a country on the left, then click its corresponding capital on the right.</p>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6">Score: <strong id="geoScore" class="text-info">0</strong></span>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="initGeoGame()">
+              <i class="fa-solid fa-rotate-right me-1"></i> Restart
+            </button>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-6">
+            <h6 class="fw-bold text-dark mb-2">Countries:</h6>
+            <div id="geoCountries"></div>
+          </div>
+          <div class="col-6">
+            <h6 class="fw-bold text-dark mb-2">Capitals:</h6>
+            <div id="geoCapitals"></div>
+          </div>
+        </div>
+        <div id="geoFeedback" class="mt-3"></div>
+      </div>
+    </div>
+
+    <!-- GAME 5: GK ODD-ONE-OUT -->
+    <div class="tab-pane fade" id="game-odd" role="tabpanel">
+      <div class="card card-modern p-4 p-md-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 border-bottom pb-3">
+          <div>
+            <h4 class="fw-bold text-dark mb-1">General Knowledge Odd-One-Out Challenge</h4>
+            <p class="text-muted small mb-0">Spot the item that does not fit the logical, taxonomic, or scientific rule.</p>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6">Score: <strong id="oddScore" class="text-success">0</strong></span>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="initOddGame()">
+              <i class="fa-solid fa-rotate-right me-1"></i> Restart
+            </button>
+          </div>
+        </div>
+
+        <div id="oddQuestionArea" class="py-3"></div>
+        <div id="oddFeedback"></div>
+
+        <div class="text-end mt-4">
+          <button id="oddNextBtn" class="btn btn-primary px-4 py-2 rounded-pill fw-bold d-none">
+            Next Round <i class="fa-solid fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Game Over / Score Modal -->
+<div class="modal fade" id="gameResultModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-body p-4 text-center">
+        <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-3" style="width: 64px; height: 64px;">
+          <i class="fa-solid fa-trophy fs-2"></i>
+        </div>
+        <h4 class="fw-bold text-dark mb-1">Game Completed!</h4>
+        <div class="text-muted small mb-3" id="modalGameTitle">IQ Game</div>
+
+        <div class="p-3 bg-light rounded-3 mb-3 border">
+          <div class="row">
+            <div class="col-6 border-end">
+              <div class="text-muted small">Score</div>
+              <div class="h3 fw-bold text-dark mb-0" id="modalGameScore">0/50</div>
+            </div>
+            <div class="col-6">
+              <div class="text-muted small">Accuracy</div>
+              <div class="h3 fw-bold text-success mb-0" id="modalGamePct">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-muted small mb-4">
+          Your game performance score has been recorded to your self-assessment database record.
+        </p>
+
+        <div class="d-flex justify-content-center gap-2">
+          <button type="button" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold" data-bs-dismiss="modal">Play Again</button>
+          <a href="{{ url_for('highschool_performance') }}" class="btn btn-primary px-4 rounded-pill fw-bold">View Analytics</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/games.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    initBiologyGame();
+    initMathGame();
+    initHistoryGame();
+    initGeoGame();
+    initOddGame();
+  });
+</script>
+{% endblock %}

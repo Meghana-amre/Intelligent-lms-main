@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}High School Hub - IntelliLearn LMS{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <!-- Breadcrumb & Header -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">High School Student Section</li>
+    </ol>
+  </nav>
+
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-3">
+    <div>
+      <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill fw-semibold mb-2">
+        <i class="fa-solid fa-graduation-cap me-1"></i> High School Learning Track
+      </span>
+      <h1 class="display-6 fw-bold text-dark mb-1">High School Student Dashboard</h1>
+      <p class="text-muted mb-0">Explore interactive self-learning modules, IQ games, visual theory mapping, and self-assessment analytics.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('highschool_test') }}" class="btn btn-success px-4 py-2 rounded-pill fw-bold shadow-sm">
+        <i class="fa-solid fa-play me-1"></i> Start 50-Q Test
+      </a>
+      <a href="{{ url_for('highschool_performance') }}" class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold">
+        <i class="fa-solid fa-chart-pie me-1"></i> Performance
+      </a>
+    </div>
+  </div>
+
+  <!-- Summary Stats Bar -->
+  <div class="row g-3 mb-5">
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Tests Attempted</div>
+        <div class="h3 fw-bold text-dark mb-0">{{ perf.total_tests }}</div>
+        <small class="text-muted">Total assessments</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Average Score</div>
+        <div class="h3 fw-bold text-success mb-0">{{ perf.average_score }}%</div>
+        <small class="text-muted">Academic accuracy</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Performance Tier</div>
+        <div class="h3 fw-bold text-primary mb-0">{{ perf.ml_predicted_level }}</div>
+        <small class="text-muted">ML classification</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="text-muted small fw-medium">Games Played</div>
+        <div class="h3 fw-bold text-warning mb-0">{{ perf.game_stats.total_games }}</div>
+        <small class="text-muted">IQ & Memory games</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE FOUR MAJOR MODULES + PERFORMANCE ANALYSIS (5 CARDS) -->
+  <h4 class="fw-bold text-dark mb-4">Core High School Learning Modules</h4>
+  <div class="row g-4 mb-5">
+
+    <!-- MODULE 1: SUBJECT-BASED MCQ TEST -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-modern h-100 p-4 border-top border-4 border-success">
+        <div class="stat-icon bg-success-subtle text-success mb-3">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <div class="badge bg-success-subtle text-success rounded-pill px-3 py-1 mb-2 align-self-start fw-semibold">Module 1</div>
+        <h5 class="fw-bold text-dark mb-2">Subject-Based MCQ Test</h5>
+        <p class="text-muted small mb-4">
+          50-question comprehensive test spanning 8 high-school subjects: Biology, Science, Mathematics, History, Geography, Social Science, English, and GK. Guaranteed 0 duplicates.
+        </p>
+        <div class="mt-auto">
+          <a href="{{ url_for('highschool_test') }}" class="btn btn-outline-success w-100 rounded-pill fw-bold">
+            <i class="fa-solid fa-file-pen me-1"></i> Start 50-Q Test
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 2: EDUCATIONAL & IQ GAMES -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-modern h-100 p-4 border-top border-4 border-warning">
+        <div class="stat-icon bg-warning-subtle text-warning mb-3">
+          <i class="fa-solid fa-gamepad"></i>
+        </div>
+        <div class="badge bg-warning-subtle text-warning rounded-pill px-3 py-1 mb-2 align-self-start fw-semibold">Module 2</div>
+        <h5 class="fw-bold text-dark mb-2">Educational & IQ Games</h5>
+        <p class="text-muted small mb-4">
+          Improve recall, logical deduction, and spatial reasoning with 6 interactive games: Heart/Brain diagram labeling, Math sequence puzzles, Timeline sorting, and Geography pairs.
+        </p>
+        <div class="mt-auto">
+          <a href="{{ url_for('highschool_games') }}" class="btn btn-outline-warning text-dark w-100 rounded-pill fw-bold">
+            <i class="fa-solid fa-chess me-1"></i> Play IQ Games
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3: MAP METHOD -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-modern h-100 p-4 border-top border-4 border-info">
+        <div class="stat-icon bg-info-subtle text-info mb-3">
+          <i class="fa-solid fa-diagram-project"></i>
+        </div>
+        <div class="badge bg-info-subtle text-info rounded-pill px-3 py-1 mb-2 align-self-start fw-semibold">Module 3</div>
+        <h5 class="fw-bold text-dark mb-2">Map Method</h5>
+        <p class="text-muted small mb-4">
+          Paste complex textbook theory to automatically generate dynamic, readable visual flowcharts, hierarchical taxonomy concept maps, or branching mind maps based on content structure.
+        </p>
+        <div class="mt-auto">
+          <a href="{{ url_for('highschool_map_method') }}" class="btn btn-outline-info text-dark w-100 rounded-pill fw-bold">
+            <i class="fa-solid fa-sitemap me-1"></i> Generate Visual Map
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 4: NEWSPAPER SUMMARIZATION -->
+    <div class="col-md-6 col-lg-6">
+      <div class="card card-modern h-100 p-4 border-top border-4 border-danger">
+        <div class="stat-icon bg-danger-subtle text-danger mb-3">
+          <i class="fa-solid fa-newspaper"></i>
+        </div>
+        <div class="badge bg-danger-subtle text-danger rounded-pill px-3 py-1 mb-2 align-self-start fw-semibold">Module 4</div>
+        <h5 class="fw-bold text-dark mb-2">Newspaper Summarization</h5>
+        <p class="text-muted small mb-4">
+          Powered by the genuine <strong>TextRank Algorithm</strong> (Mihalcea & Tarau / IEEE ICCCA 2020). Extracts key sentences, key bullet points, essential keyword tags, and generates an educational visual infographic.
+        </p>
+        <div class="mt-auto">
+          <a href="{{ url_for('highschool_newspaper') }}" class="btn btn-outline-danger w-100 rounded-pill fw-bold">
+            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Summarize Article
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 5: PERFORMANCE ANALYSIS (SELF-ASSESSMENT) -->
+    <div class="col-md-12 col-lg-6">
+      <div class="card card-modern h-100 p-4 border-top border-4 border-primary">
+        <div class="stat-icon bg-primary-subtle text-primary mb-3">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 mb-2 align-self-start fw-semibold">Module 5</div>
+        <h5 class="fw-bold text-dark mb-2">Student Performance Analysis</h5>
+        <p class="text-muted small mb-4">
+          Continuous self-assessment analytics. Displays subject-wise proficiency bars, highlights strong & weak areas, computes Decision Tree ML classification, and generates personalized remedial learning recommendations.
+        </p>
+        <div class="mt-auto">
+          <a href="{{ url_for('highschool_performance') }}" class="btn btn-outline-primary w-100 rounded-pill fw-bold">
+            <i class="fa-solid fa-user-check me-1"></i> View Self-Assessment
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

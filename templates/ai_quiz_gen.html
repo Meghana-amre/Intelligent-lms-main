@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block title %}AI Notes-to-Quiz & NLP Studio - IntelliLearn{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Header Banner -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card glass-card border-0 rounded-4 p-4 shadow-sm">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge bg-gradient-primary px-3 py-2 rounded-pill"><i class="fa-solid fa-wand-magic-sparkles me-1"></i> Generative AI & NLP</span>
+              <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill"><i class="fa-solid fa-microchip me-1"></i> Multi-Engine Hybrid</span>
+            </div>
+            <h2 class="fw-bold mb-1">AI Notes-to-Quiz & NLP Evaluation Studio</h2>
+            <p class="text-secondary mb-0">Transform raw textbook chapters into verified diagnostic MCQs and run empirical TextRank vs. Abstractive ROUGE studies.</p>
+          </div>
+          <a href="{{ url_for('home') }}" class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="fa-solid fa-arrow-left me-1"></i> Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mode Selector Tabs -->
+  <ul class="nav nav-pills mb-4 gap-2" id="aiStudioTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active rounded-pill px-4 py-2 fw-semibold" id="quiz-tab" data-bs-toggle="pill" data-bs-target="#quiz-panel" type="button" role="tab">
+        <i class="fa-solid fa-file-circle-question me-2"></i> Notes-to-Quiz Generator
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-pill px-4 py-2 fw-semibold" id="rouge-tab" data-bs-toggle="pill" data-bs-target="#rouge-panel" type="button" role="tab">
+        <i class="fa-solid fa-chart-pie me-2"></i> TextRank vs Abstractive (ROUGE Study)
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="aiStudioContent">
+
+    <!-- 1. QUIZ GENERATOR TAB -->
+    <div class="tab-pane fade show active" id="quiz-panel" role="tabpanel">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="card glass-card border-0 rounded-4 p-4 shadow-sm h-100">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-book-open text-primary me-2"></i>Input Study Material</h5>
+            <form id="quizGenForm">
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Subject Area</label>
+                <select class="form-select rounded-3" id="quizSubject">
+                  <option value="Physics">Physics</option>
+                  <option value="Biology" selected>Biology & Life Sciences</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Computer Science">Computer Science & DSA</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="History">History & Social Studies</option>
+                </select>
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">Questions Count</label>
+                  <select class="form-select rounded-3" id="quizCount">
+                    <option value="3">3 Questions</option>
+                    <option value="5" selected>5 Questions</option>
+                    <option value="8">8 Questions</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">Difficulty</label>
+                  <select class="form-select rounded-3" id="quizDiff">
+                    <option value="Easy">Easy (Recall)</option>
+                    <option value="Medium" selected>Medium (Conceptual)</option>
+                    <option value="Hard">Hard (Analytical)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Paste Lecture Notes, Chapter Text, or Paragraphs</label>
+                <textarea class="form-control rounded-3" id="quizText" rows="9" placeholder="Paste your lesson notes here... Example:
+Photosynthesis is the fundamental biological process through which green plants convert light energy into chemical energy. In this process, plants absorb carbon dioxide from the atmosphere and water from the soil. Utilizing solar photons absorbed by chlorophyll, plants synthesize glucose and release oxygen as a vital byproduct. Light-dependent reactions occur in the thylakoid membranes, while the Calvin cycle occurs in the stroma."></textarea>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary rounded-pill py-2 fw-semibold" id="btnGenerateQuiz">
+                  <i class="fa-solid fa-wand-magic-sparkles me-2"></i> Generate Diagnostic MCQs
+                </button>
+                <button type="button" class="btn btn-outline-secondary rounded-pill btn-sm" id="btnSampleNotes">
+                  <i class="fa-solid fa-lightbulb me-1"></i> Load Sample Topic
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Generated Questions Output Area -->
+        <div class="col-lg-7">
+          <div class="card glass-card border-0 rounded-4 p-4 shadow-sm h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0"><i class="fa-solid fa-list-check text-success me-2"></i>Generated Assessment Questions</h5>
+              <span class="badge bg-secondary rounded-pill" id="genEngineBadge">Ready</span>
+            </div>
+
+            <div id="quizPlaceholder" class="text-center py-5 text-secondary">
+              <div class="stat-icon bg-light text-muted mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem;">
+                <i class="fa-solid fa-file-pen"></i>
+              </div>
+              <p class="mb-1 fw-semibold">No questions generated yet</p>
+              <small>Paste notes on the left and click "Generate Diagnostic MCQs" to create questions with instant explanations.</small>
+            </div>
+
+            <div id="quizSpinner" class="text-center py-5 d-none">
+              <div class="spinner-border text-primary" role="status"></div>
+              <p class="mt-2 text-secondary fw-semibold">Analyzing conceptual patterns and constructing MCQs...</p>
+            </div>
+
+            <div id="quizResultsContainer" class="d-none" style="max-height: 600px; overflow-y: auto;">
+              <!-- Dynamic Questions Render Here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ROUGE EVALUATION TAB -->
+    <div class="tab-pane fade" id="rouge-panel" role="tabpanel">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card glass-card border-0 rounded-4 p-4 shadow-sm">
+            <h5 class="fw-bold mb-2"><i class="fa-solid fa-newspaper text-danger me-2"></i>Comparative Summarizer Input</h5>
+            <p class="text-secondary small mb-3">Input an article to compare classical Graph-based TextRank against Modern Abstractive Summarization and evaluate with ROUGE metrics.</p>
+            
+            <textarea class="form-control rounded-3 mb-3" id="rougeInputText" rows="10" placeholder="Paste an article or paragraph to evaluate... Example:
+The Indian Space Research Organisation has achieved historic success in aerospace science through the Chandrayaan-3 lunar landing mission. The spacecraft successfully performed a soft landing near the lunar south pole, making India the first nation to achieve this feat. The Vikram lander deployed the Pragyan rover to investigate the surface chemistry, discovering key elements such as sulfur, aluminium, and iron. This mission provides vital insights into the geographical composition of lunar soil."></textarea>
+            
+            <button class="btn btn-danger rounded-pill px-4 py-2 w-100 fw-semibold" id="btnRunRouge">
+              <i class="fa-solid fa-chart-line me-2"></i> Run Comparative Study & Compute ROUGE
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card glass-card border-0 rounded-4 p-4 shadow-sm h-100">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-square-poll-vertical text-purple me-2"></i>Empirical ROUGE-1 / 2 / L Benchmarking</h5>
+            
+            <div id="rougePlaceholder" class="text-center py-5 text-secondary">
+              <i class="fa-solid fa-scale-balanced fa-2x mb-2 text-muted"></i>
+              <p class="mb-0">Click "Run Comparative Study" to compute NLP evaluation metrics.</p>
+            </div>
+
+            <div id="rougeSpinner" class="text-center py-5 d-none">
+              <div class="spinner-border text-danger" role="status"></div>
+              <p class="mt-2 text-secondary fw-semibold">Generating summaries and computing Longest Common Subsequence...</p>
+            </div>
+
+            <div id="rougeResults" class="d-none">
+              <!-- Metrics Cards -->
+              <div class="row g-2 mb-3">
+                <div class="col-4">
+                  <div class="p-3 bg-primary-subtle text-primary rounded-3 text-center">
+                    <small class="fw-bold d-block">ROUGE-1 F1</small>
+                    <span class="fs-4 fw-bold" id="r1Val">0%</span>
+                    <small class="d-block text-muted" style="font-size: 0.7rem;">Unigram Overlap</small>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="p-3 bg-success-subtle text-success rounded-3 text-center">
+                    <small class="fw-bold d-block">ROUGE-2 F1</small>
+                    <span class="fs-4 fw-bold" id="r2Val">0%</span>
+                    <small class="d-block text-muted" style="font-size: 0.7rem;">Bigram Overlap</small>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="p-3 bg-info-subtle text-info rounded-3 text-center">
+                    <small class="fw-bold d-block">ROUGE-L F1</small>
+                    <span class="fs-4 fw-bold" id="rlVal">0%</span>
+                    <small class="d-block text-muted" style="font-size: 0.7rem;">LCS Sequence</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Summaries Comparison -->
+              <div class="p-3 bg-light rounded-3 mb-2">
+                <span class="badge bg-primary mb-1">Model A: TextRank (Extractive Graph)</span>
+                <p class="small text-secondary mb-0" id="textrankSummaryText"></p>
+              </div>
+
+              <div class="p-3 bg-light rounded-3 mb-2">
+                <span class="badge bg-success mb-1" id="abstractiveModelBadge">Model B: Abstractive Synthesis</span>
+                <p class="small text-secondary mb-0" id="abstractiveSummaryText"></p>
+              </div>
+
+              <div class="small text-muted fst-italic mt-2">
+                Citation: Lin, C.Y. (2004), "ROUGE: A Package for Automatic Evaluation of Summaries", ACL Workshop.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Interactive JS for Studio -->
+<script>
+  document.getElementById('btnSampleNotes').addEventListener('click', function() {
+    document.getElementById('quizText').value = `Data structures are foundational constructs in computer science for organizing and storing data efficiently. An array is a collection of items stored at contiguous memory locations, allowing O(1) random access. A linked list consists of nodes containing a data field and a reference link to the next node, offering efficient O(1) insertions and deletions at the head. A stack is an abstract data type that operates on a Last-In First-Out (LIFO) principle with push and pop operations, commonly utilized in expression parsing and recursive call tracking. In contrast, a queue operates on a First-In First-Out (FIFO) principle, utilized in CPU scheduling and breadth-first graph traversal.`;
+    document.getElementById('quizSubject').value = 'Computer Science';
+  });
+
+  document.getElementById('quizGenForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const text = document.getElementById('quizText').value.trim();
+    if (!text) {
+      alert('Please enter or paste your study material.');
+      return;
+    }
+
+    const placeholder = document.getElementById('quizPlaceholder');
+    const spinner = document.getElementById('quizSpinner');
+    const container = document.getElementById('quizResultsContainer');
+    const badge = document.getElementById('genEngineBadge');
+
+    placeholder.classList.add('d-none');
+    container.classList.add('d-none');
+    spinner.classList.remove('d-none');
+
+    try {
+      const res = await fetch('/api/ai/generate-quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          notes_text: text,
+          subject: document.getElementById('quizSubject').value,
+          num_questions: parseInt(document.getElementById('quizCount').value),
+          difficulty: document.getElementById('quizDiff').value
+        })
+      });
+      const data = await res.json();
+      spinner.classList.add('d-none');
+
+      if (data.status === 'success' && data.questions && data.questions.length > 0) {
+        badge.textContent = data.engine;
+        badge.className = 'badge bg-success rounded-pill';
+        container.innerHTML = '';
+
+        data.questions.forEach((q, idx) => {
+          const card = document.createElement('div');
+          card.className = 'card border rounded-3 p-3 mb-3 shadow-xs';
+          
+          let optsHtml = '';
+          for (const [key, val] of Object.entries(q.options)) {
+            const isCorrect = key === q.correct_option;
+            optsHtml += `
+              <div class="form-check p-2 rounded-2 mb-1 option-row ${isCorrect ? 'bg-success-subtle border border-success-subtle' : 'bg-light'}" style="cursor: pointer;">
+                <input class="form-check-input ms-1 me-2" type="radio" name="q_${idx}" id="q_${idx}_${key}" ${isCorrect ? 'checked' : ''} disabled>
+                <label class="form-check-label fw-medium ${isCorrect ? 'text-success fw-bold' : ''}" for="q_${idx}_${key}">
+                  <strong>${key})</strong> ${val} ${isCorrect ? '<span class="badge bg-success ms-2">Correct</span>' : ''}
+                </label>
+              </div>
+            `;
+          }
+
+          card.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-primary rounded-pill">Question ${idx + 1}</span>
+              <small class="text-muted">${data.subject}</small>
+            </div>
+            <p class="fw-semibold mb-2">${q.question}</p>
+            <div class="mb-2">${optsHtml}</div>
+            <div class="p-2 bg-light rounded-2 small text-secondary">
+              <strong class="text-primary"><i class="fa-solid fa-lightbulb me-1"></i> Explanation:</strong> ${q.explanation}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+        container.classList.remove('d-none');
+      } else {
+        placeholder.classList.remove('d-none');
+        alert(data.message || 'Failed to generate questions. Please ensure notes contain sufficient factual sentences.');
+      }
+    } catch (err) {
+      spinner.classList.add('d-none');
+      placeholder.classList.remove('d-none');
+      alert('Network error connecting to AI quiz service.');
+    }
+  });
+
+  // ROUGE Study Runner
+  document.getElementById('btnRunRouge').addEventListener('click', async function() {
+    const text = document.getElementById('rougeInputText').value.trim();
+    if (!text) {
+      alert('Please enter an article to evaluate.');
+      return;
+    }
+
+    const placeholder = document.getElementById('rougePlaceholder');
+    const spinner = document.getElementById('rougeSpinner');
+    const results = document.getElementById('rougeResults');
+
+    placeholder.classList.add('d-none');
+    results.classList.add('d-none');
+    spinner.classList.remove('d-none');
+
+    try {
+      const res = await fetch('/api/ai/compare-summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+      });
+      const data = await res.json();
+      spinner.classList.add('d-none');
+
+      if (data.status === 'success') {
+        document.getElementById('r1Val').textContent = data.rouge_metrics.rouge_1.f1 + '%';
+        document.getElementById('r2Val').textContent = data.rouge_metrics.rouge_2.f1 + '%';
+        document.getElementById('rlVal').textContent = data.rouge_metrics.rouge_l.f1 + '%';
+
+        document.getElementById('textrankSummaryText').textContent = data.extractive_model.summary;
+        document.getElementById('abstractiveSummaryText').textContent = data.abstractive_model.summary;
+        document.getElementById('abstractiveModelBadge').textContent = 'Model B: ' + data.abstractive_model.name;
+
+        results.classList.remove('d-none');
+      } else {
+        placeholder.classList.remove('d-none');
+        alert(data.message || 'Error executing summarization study.');
+      }
+    } catch (err) {
+      spinner.classList.add('d-none');
+      placeholder.classList.remove('d-none');
+      alert('Network error executing comparative summarization.');
+    }
+  });
+</script>
+{% endblock %}

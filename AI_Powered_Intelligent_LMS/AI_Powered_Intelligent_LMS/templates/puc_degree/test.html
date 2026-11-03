@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block title %}100-Question Logical & Technical Assessment - PUC & Degree{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}" class="text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('puc_degree_dashboard') }}" class="text-decoration-none">PUC & Degree</a></li>
+      <li class="breadcrumb-item active" aria-current="page">100-Question Technical Assessment</li>
+    </ol>
+  </nav>
+
+  <!-- Loading State -->
+  <div id="loadingSpinner" class="text-center py-5">
+    <div class="spinner-border text-primary" style="width: 3.5rem; height: 3.5rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="h5 fw-bold text-dark mt-3">Synthesizing 100 Unique Technical Questions...</div>
+    <p class="text-muted small">Validating database uniqueness constraints to guarantee zero question duplicates.</p>
+  </div>
+
+  <!-- Error Alert -->
+  <div id="testErrorBox" class="alert alert-danger d-none shadow-sm rounded-4" role="alert"></div>
+
+  <!-- MAIN TEST RUNNER AREA -->
+  <div id="testMainArea">
+    <div id="testContent" style="display: none;">
+
+      <!-- Top Header Bar -->
+      <div class="card card-modern p-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-bold">
+              <i class="fa-solid fa-microchip me-1"></i> Technical & Logical Assessment (100-Q)
+            </span>
+            <span class="text-muted small" id="answeredCounter">0/100 Answered</span>
+          </div>
+
+          <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2 bg-light px-3 py-1 rounded-pill border">
+              <i class="fa-regular fa-clock text-warning"></i>
+              <span class="fw-bold font-monospace text-dark fs-6" id="testTimer">00:00</span>
+            </div>
+            <button class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="runner.confirmSubmit()">
+              <i class="fa-solid fa-check-double me-1"></i> Submit Assessment
+            </button>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress mt-3" style="height: 6px;">
+          <div id="testProgress" class="progress-bar bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Question & Options Panel -->
+        <div class="col-lg-8">
+          <div class="card card-modern p-4 p-md-5">
+
+            <!-- Question Meta -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 rounded-pill" id="qSubject">Domain</span>
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-light text-muted border px-2 py-1" id="qDifficulty">Medium</span>
+                <span class="fw-bold text-dark" id="qNumber">Question 1 of 100</span>
+              </div>
+            </div>
+
+            <!-- Question Text -->
+            <h4 class="fw-bold text-dark lh-base mb-4" id="qText">
+              Loading technical question...
+            </h4>
+
+            <!-- Options Container -->
+            <div id="optionsContainer" class="mb-3"></div>
+
+            <!-- Visual Feedback Banner (🟢 Correct / 🔴 Incorrect) -->
+            <div id="feedbackBox" class="d-none"></div>
+
+            <!-- Bottom Navigation Controls -->
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-2">
+              <button id="prevBtn" class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold" disabled>
+                <i class="fa-solid fa-arrow-left me-1"></i> Previous
+              </button>
+              <button id="nextBtn" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
+                Next Question <i class="fa-solid fa-arrow-right ms-1"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Question Grid Navigator (1 to 100) -->
+        <div class="col-lg-4">
+          <div class="card card-modern p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h6 class="fw-bold text-dark mb-0">Question Navigator (1 - 100)</h6>
+              <small class="text-muted">Instant jump</small>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mb-4" id="questionPalette" style="max-height: 480px; overflow-y: auto;">
+              <!-- 100 Badges dynamically rendered -->
+            </div>
+
+            <div class="p-3 bg-light rounded-3 border small">
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge bg-primary text-white" style="width: 16px; height: 16px; padding: 0;">&nbsp;</span>
+                <span class="text-muted">Current Active Question</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge bg-success text-white" style="width: 16px; height: 16px; padding: 0;">&nbsp;</span>
+                <span class="text-muted">Answered Correctly</span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-danger text-white" style="width: 16px; height: 16px; padding: 0;">&nbsp;</span>
+                <span class="text-muted">Answered Incorrectly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESULT CARD / SCORECARD AREA -->
+  <div id="testResultArea" class="d-none">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="card card-modern p-4 p-md-5 text-center border-top border-5 border-primary">
+          
+          <div class="stat-icon bg-primary-subtle text-primary mx-auto mb-3" style="width: 76px; height: 76px; font-size: 2.2rem;">
+            <i class="fa-solid fa-award"></i>
+          </div>
+
+          <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-bold mb-2">Assessment Concluded</span>
+          <h2 class="fw-bold text-dark mb-1">Logical & Technical Assessment Scorecard</h2>
+          <p class="text-muted mb-4">Complete 100-question evaluation saved to SQLite for performance trend tracking.</p>
+
+          <!-- Performance Badge -->
+          <div class="mb-4">
+            <span id="resPerfLevel" class="badge bg-primary fs-5 px-4 py-2 rounded-pill">Good</span>
+          </div>
+
+          <!-- Score Metrics Grid -->
+          <div class="row g-3 mb-4 text-start">
+            <div class="col-6 col-md-3">
+              <div class="p-3 bg-light rounded-4 border text-center">
+                <div class="text-muted small fw-medium">Total Questions</div>
+                <div class="h3 fw-bold text-dark mb-0" id="resTotalQ">100</div>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="p-3 bg-success-subtle rounded-4 border border-success-subtle text-center">
+                <div class="text-success small fw-medium">Correct Answers</div>
+                <div class="h3 fw-bold text-success mb-0" id="resCorrect">0</div>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="p-3 bg-danger-subtle rounded-4 border border-danger-subtle text-center">
+                <div class="text-danger small fw-medium">Incorrect</div>
+                <div class="h3 fw-bold text-danger mb-0" id="resIncorrect">0</div>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="p-3 bg-warning-subtle rounded-4 border border-warning-subtle text-center">
+                <div class="text-warning small fw-medium">Unattempted</div>
+                <div class="h3 fw-bold text-warning mb-0" id="resUnattempted">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Marks & Percentage Highlight -->
+          <div class="p-4 bg-light rounded-4 border mb-4">
+            <div class="row align-items-center gy-3">
+              <div class="col-sm-6 text-sm-start border-end-sm">
+                <div class="text-muted small fw-bold text-uppercase">Score Obtained</div>
+                <div class="display-6 fw-bold text-primary" id="resScore">0/100</div>
+              </div>
+              <div class="col-sm-6 text-sm-end">
+                <div class="text-muted small fw-bold text-uppercase">Overall Proficiency</div>
+                <div class="display-6 fw-bold text-success" id="resPercentage">0.0%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="{{ url_for('puc_degree_performance') }}" class="btn btn-primary btn-lg px-4 rounded-pill fw-bold shadow-sm">
+              <i class="fa-solid fa-chart-pie me-1"></i> Technical Analytics Dashboard
+            </a>
+            <a href="{{ url_for('puc_degree_test') }}" class="btn btn-outline-primary btn-lg px-4 rounded-pill fw-semibold">
+              <i class="fa-solid fa-rotate-right me-1"></i> Retake New 100-Q Test
+            </a>
+            <a href="{{ url_for('puc_degree_dashboard') }}" class="btn btn-outline-secondary btn-lg px-4 rounded-pill fw-semibold">
+              <i class="fa-solid fa-house me-1"></i> Technical Hub
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Submission Confirmation Modal -->
+<div class="modal fade" id="submitConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-body p-4 text-center">
+        <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-3" style="width: 56px; height: 56px;">
+          <i class="fa-solid fa-circle-question fs-3"></i>
+        </div>
+        <h5 class="fw-bold text-dark mb-2">Submit 100-Question Assessment?</h5>
+        <p class="text-muted small mb-4" id="submitModalMsg">
+          Are you sure you want to finish and calculate your final score?
+        </p>
+        <div class="d-flex justify-content-center gap-2">
+          <button type="button" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold" data-bs-dismiss="modal">Keep Testing</button>
+          <button type="button" class="btn btn-primary px-4 rounded-pill fw-bold" data-bs-dismiss="modal" onclick="runner.submitTest()">Yes, Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/test_runner.js') }}"></script>
+<script>
+  let runner;
+  document.addEventListener('DOMContentLoaded', () => {
+    runner = new TestRunner({
+      category: 'puc_degree',
+      count: 100,
+      studentId: {{ student_id }},
+      testTitle: 'PUC & Degree 100-Question Logical & Technical Assessment'
+    });
+  });
+</script>
+{% endblock %}

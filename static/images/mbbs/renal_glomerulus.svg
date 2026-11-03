@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Renal Glomerulus Histology and Microanatomy">
+  <defs>
+    <radialGradient id="glomBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff5f7"/>
+      <stop offset="100%" stop-color="#f5e1e8"/>
+    </radialGradient>
+    <linearGradient id="capillaryGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#e25f82"/>
+      <stop offset="100%" stop-color="#9a1b47"/>
+    </linearGradient>
+    <linearGradient id="capsuleGrad" x1="0" x2="1">
+      <stop offset="0%" stop-color="#4a154b"/>
+      <stop offset="100%" stop-color="#732b6e"/>
+    </linearGradient>
+    <radialGradient id="rbcGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff7675"/>
+      <stop offset="100%" stop-color="#d63031"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background / Stroma (H&E Stained Parenchyma) -->
+  <rect width="320" height="240" fill="url(#glomBg)"/>
+
+  <!-- Surrounding Renal Tubules (Proximal & Distal Convoluted Tubules) -->
+  <g opacity="0.45" stroke="#732b6e" stroke-width="1.5" fill="#f8d7e3">
+    <!-- Top-left tubule -->
+    <ellipse cx="40" cy="40" rx="32" ry="26"/>
+    <ellipse cx="40" cy="40" rx="14" ry="10" fill="#fff5f8"/>
+    <!-- Top-right tubule -->
+    <ellipse cx="280" cy="45" rx="30" ry="28"/>
+    <ellipse cx="280" cy="45" rx="12" ry="11" fill="#fff5f8"/>
+    <!-- Bottom-left tubule -->
+    <ellipse cx="45" cy="200" rx="35" ry="28"/>
+    <ellipse cx="45" cy="200" rx="15" ry="12" fill="#fff5f8"/>
+    <!-- Bottom-right tubule -->
+    <ellipse cx="275" cy="195" rx="34" ry="30"/>
+    <ellipse cx="275" cy="195" rx="14" ry="12" fill="#fff5f8"/>
+  </g>
+
+  <!-- Bowman's Capsule - Parietal Layer (Simple Squamous) -->
+  <circle cx="160" cy="120" r="94" fill="#fffafc" stroke="url(#capsuleGrad)" stroke-width="3.5" stroke-dasharray="8 2"/>
+  
+  <!-- Parietal Epithelial Nuclei (Flattened purple crescents) -->
+  <g fill="#4a154b">
+    <ellipse cx="160" cy="27" rx="9" ry="3.5"/>
+    <ellipse cx="215" cy="42" rx="8" ry="4" transform="rotate(25 215 42)"/>
+    <ellipse cx="251" cy="98" rx="8" ry="4" transform="rotate(70 251 98)"/>
+    <ellipse cx="248" cy="155" rx="8" ry="4" transform="rotate(-65 248 155)"/>
+    <ellipse cx="205" cy="205" rx="9" ry="3.5" transform="rotate(-25 205 205)"/>
+    <ellipse cx="115" cy="208" rx="9" ry="3.5" transform="rotate(25 115 208)"/>
+    <ellipse cx="72" cy="160" rx="8" ry="4" transform="rotate(65 72 160)"/>
+    <ellipse cx="68" cy="92" rx="8" ry="4" transform="rotate(-70 68 92)"/>
+    <ellipse cx="108" cy="38" rx="9" ry="4" transform="rotate(-25 108 38)"/>
+  </g>
+
+  <!-- Glomerular Capillary Tuft with Mesangium -->
+  <g transform="translate(160,125)">
+    <!-- Mesangial matrix core -->
+    <path d="M-5 -25 C15 -45 50 -30 45 -5 C55 25 25 55 -5 45 C-45 50 -55 10 -40 -15 C-30 -40 -15 -35 -5 -25 Z" fill="#e889a5" opacity="0.6"/>
+
+    <!-- Capillary Loops -->
+    <path d="M-15 -20 C-10 -65 30 -60 25 -25" fill="none" stroke="url(#capillaryGrad)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M15 -10 C65 -20 70 30 20 25" fill="none" stroke="url(#capillaryGrad)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M10 20 C30 65 -15 65 -10 25" fill="none" stroke="url(#capillaryGrad)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M-10 18 C-45 55 -70 10 -30 0" fill="none" stroke="url(#capillaryGrad)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M-20 -5 C-60 -35 -30 -60 -10 -25" fill="none" stroke="url(#capillaryGrad)" stroke-width="11" stroke-linecap="round"/>
+
+    <!-- Capillary Lumen & RBCs -->
+    <circle cx="5" cy="-45" r="4.5" fill="url(#rbcGrad)"/>
+    <circle cx="48" cy="5" r="4.5" fill="url(#rbcGrad)"/>
+    <circle cx="10" cy="45" r="4.5" fill="url(#rbcGrad)"/>
+    <circle cx="-45" cy="30" r="4.5" fill="url(#rbcGrad)"/>
+    <circle cx="-38" cy="-32" r="4.5" fill="url(#rbcGrad)"/>
+
+    <!-- Endothelial & Mesangial cell nuclei -->
+    <ellipse cx="0" cy="-5" rx="6" ry="4" fill="#38006b"/>
+    <ellipse cx="15" cy="5" rx="5" ry="3.5" fill="#38006b"/>
+    <ellipse cx="-15" cy="10" rx="5.5" ry="3.5" fill="#38006b"/>
+    <ellipse cx="8" cy="-22" rx="4" ry="3" fill="#38006b"/>
+    <ellipse cx="-10" cy="-20" rx="4" ry="3" fill="#38006b"/>
+
+    <!-- Podocytes & Foot processes (Visceral Layer) -->
+    <g fill="#2e104e">
+      <circle cx="28" cy="-50" r="5"/>
+      <path d="M28 -45 Q35 -35 25 -28 M28 -45 Q20 -38 18 -30" stroke="#2e104e" stroke-width="2" fill="none"/>
+      <circle cx="60" cy="22" r="5"/>
+      <path d="M57 22 Q48 18 40 24 M57 26 Q46 30 38 28" stroke="#2e104e" stroke-width="2" fill="none"/>
+      <circle cx="-25" cy="48" r="5"/>
+      <path d="M-22 45 Q-18 36 -12 30 M-27 44 Q-32 35 -30 25" stroke="#2e104e" stroke-width="2" fill="none"/>
+      <circle cx="-55" cy="-18" r="5"/>
+      <path d="M-50 -16 Q-40 -12 -32 -10 M-52 -22 Q-42 -26 -35 -28" stroke="#2e104e" stroke-width="2" fill="none"/>
+    </g>
+  </g>
+
+  <!-- Vascular Pole (Macula Densa) -->
+  <g transform="translate(160, 20)">
+    <rect x="-24" y="-12" width="48" height="12" rx="3" fill="#ebd1dd" stroke="#732b6e" stroke-width="1.2"/>
+    <circle cx="-16" cy="-6" r="3" fill="#38006b"/>
+    <circle cx="-8" cy="-6" r="3" fill="#38006b"/>
+    <circle cx="0" cy="-6" r="3" fill="#38006b"/>
+    <circle cx="8" cy="-6" r="3" fill="#38006b"/>
+    <circle cx="16" cy="-6" r="3" fill="#38006b"/>
+  </g>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="136" height="18" rx="4" fill="#38006b" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">RENAL GLOMERULUS</text>
+    <rect x="140" y="-14" width="94" height="18" rx="4" fill="#d85081" opacity="0.95"/>
+    <text x="146" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">H&amp;E STAIN • 400x</text>
+  </g>
+</svg>

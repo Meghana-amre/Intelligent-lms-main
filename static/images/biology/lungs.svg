@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="MBBS Pulmonary Anatomy and Alveolar Gas Exchange Barrier">
+  <defs>
+    <radialGradient id="lungBg" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#fef8f8"/>
+      <stop offset="100%" stop-color="#faeaeb"/>
+    </radialGradient>
+    <linearGradient id="lungTissue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffb4a2"/>
+      <stop offset="60%" stop-color="#e5989b"/>
+      <stop offset="100%" stop-color="#b5838d"/>
+    </linearGradient>
+    <linearGradient id="bronchGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#90caf9"/>
+      <stop offset="100%" stop-color="#1565c0"/>
+    </linearGradient>
+    <radialGradient id="alveolusLumen" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#f5fafd"/>
+      <stop offset="100%" stop-color="#e1f5fe"/>
+    </radialGradient>
+    <radialGradient id="capillaryRBC" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff5252"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="320" height="240" fill="url(#lungBg)"/>
+
+  <!-- LEFT SIDE: TRACHEOBRONCHIAL TREE & LUNG LOBES -->
+  <g transform="translate(10, 15)">
+    <!-- Right Lung Outline -->
+    <path d="M45 45 C45 25 65 20 75 40 C85 60 90 100 90 150 C90 175 60 185 30 180 C15 175 10 150 15 110 C20 75 45 65 45 45 Z" fill="url(#lungTissue)" stroke="#b5838d" stroke-width="1.5" opacity="0.85"/>
+    <path d="M22 105 L80 100" stroke="#6d597a" stroke-width="1.2" stroke-dasharray="3 2"/>
+    <path d="M25 140 L88 120" stroke="#6d597a" stroke-width="1.2" stroke-dasharray="3 2"/>
+
+    <!-- Left Lung Outline with Cardiac Notch -->
+    <path d="M125 45 C125 25 105 20 95 40 C85 60 82 85 85 105 C75 115 72 135 85 145 C90 170 115 185 140 180 C155 175 160 150 155 110 C150 75 125 65 125 45 Z" fill="url(#lungTissue)" stroke="#b5838d" stroke-width="1.5" opacity="0.85"/>
+    <path d="M92 125 L150 105" stroke="#6d597a" stroke-width="1.2" stroke-dasharray="3 2"/>
+    <path d="M78 120 C72 130 74 140 82 145" stroke="#e63946" stroke-width="1.5" fill="none"/>
+
+    <!-- Trachea -->
+    <rect x="80" y="5" width="16" height="42" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/>
+    <line x1="80" y1="12" x2="96" y2="12" stroke="#1565c0" stroke-width="1.5"/>
+    <line x1="80" y1="20" x2="96" y2="20" stroke="#1565c0" stroke-width="1.5"/>
+    <line x1="80" y1="28" x2="96" y2="28" stroke="#1565c0" stroke-width="1.5"/>
+    <line x1="80" y1="36" x2="96" y2="36" stroke="#1565c0" stroke-width="1.5"/>
+
+    <!-- Carina -->
+    <path d="M84 47 L65 72" stroke="url(#bronchGrad)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M92 47 L115 72" stroke="url(#bronchGrad)" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Segmental Branches -->
+    <g stroke="#0d47a1" stroke-width="2.2" fill="none" stroke-linecap="round">
+      <path d="M65 72 L45 85 M65 72 L55 105 M65 72 L70 120"/>
+      <path d="M115 72 L135 85 M115 72 L125 108 M115 72 L110 125"/>
+    </g>
+
+    <text x="32" y="195" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#6d597a">RIGHT (3 LOBES)</text>
+    <text x="105" y="195" font-family="system-ui, sans-serif" font-size="7" font-weight="700" fill="#6d597a">LEFT (2 LOBES)</text>
+  </g>
+
+  <!-- RIGHT SIDE: HIGH-POWER ALVEOLAR-CAPILLARY MEMBRANE -->
+  <g transform="translate(235, 105)">
+    <!-- Primary Alveolus -->
+    <circle cx="0" cy="0" r="48" fill="url(#alveolusLumen)" stroke="#0288d1" stroke-width="2.5"/>
+    <circle cx="-50" cy="-35" r="28" fill="url(#alveolusLumen)" stroke="#0288d1" stroke-width="1" opacity="0.6"/>
+    <circle cx="45" cy="-35" r="28" fill="url(#alveolusLumen)" stroke="#0288d1" stroke-width="1" opacity="0.6"/>
+    <circle cx="50" cy="35" r="28" fill="url(#alveolusLumen)" stroke="#0288d1" stroke-width="1" opacity="0.6"/>
+
+    <!-- 1. Type I Pneumocytes -->
+    <g fill="#01579b">
+      <ellipse cx="-45" cy="5" rx="5" ry="2" transform="rotate(85 -45 5)"/>
+      <ellipse cx="44" cy="5" rx="5" ry="2" transform="rotate(-85 44 5)"/>
+      <ellipse cx="0" cy="-45" rx="5" ry="2"/>
+    </g>
+
+    <!-- 2. Type II Pneumocyte (Surfactant) -->
+    <g transform="translate(15, 38)">
+      <circle cx="0" cy="0" r="8.5" fill="#ffd54f" stroke="#f57f17" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="4" fill="#e65100"/>
+      <path d="M-15 -3 Q0 -1 15 -3" stroke="#ffeb3b" stroke-width="2" fill="none"/>
+    </g>
+    <text x="25" y="44" font-family="system-ui, sans-serif" font-size="6" font-weight="700" fill="#e65100">TYPE II (SURFACTANT)</text>
+
+    <!-- 3. Alveolar Macrophage -->
+    <g transform="translate(-18, -12)">
+      <ellipse cx="0" cy="0" rx="9" ry="7" fill="#ce93d8" stroke="#6a1b9a" stroke-width="1.2"/>
+      <circle cx="-1" cy="0" r="3.5" fill="#4a148c"/>
+      <circle cx="3" cy="-2" r="1.5" fill="#212121"/>
+    </g>
+    <text x="-38" y="-22" font-family="system-ui, sans-serif" font-size="6" font-weight="700" fill="#6a1b9a">DUST CELL</text>
+
+    <!-- 4. Pulmonary Capillary & RBC in single file -->
+    <g transform="translate(-48, 0)">
+      <path d="M-8 -35 L-8 35 L6 35 L6 -35 Z" fill="#ffebee" stroke="#c62828" stroke-width="1.2"/>
+      <ellipse cx="-1" cy="-20" rx="5" ry="3.5" fill="url(#capillaryRBC)" transform="rotate(30 -1 -20)"/>
+      <ellipse cx="-1" cy="0" rx="5" ry="3.5" fill="url(#capillaryRBC)"/>
+      <path d="M2 0 L15 0" stroke="#00c853" stroke-width="1.8" fill="none"/>
+      <path d="M15 -8 L2 -8" stroke="#29b6f6" stroke-width="1.8" fill="none"/>
+      <ellipse cx="-1" cy="20" rx="5" ry="3.5" fill="url(#capillaryRBC)" transform="rotate(-30 -1 20)"/>
+      <text x="-38" y="2" font-family="system-ui, sans-serif" font-size="6" font-weight="700" fill="#b71c1c">CAPILLARY</text>
+    </g>
+
+    <text x="-25" y="22" font-family="system-ui, sans-serif" font-size="6.5" font-weight="700" fill="#0288d1">ALVEOLUS</text>
+  </g>
+
+  <!-- Medical Badge -->
+  <g transform="translate(10, 222)">
+    <rect x="0" y="-14" width="138" height="18" rx="4" fill="#0d47a1" opacity="0.95"/>
+    <text x="6" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#ffffff">RESPIRATORY SYSTEM</text>
+    <rect x="142" y="-14" width="108" height="18" rx="4" fill="#c62828" opacity="0.95"/>
+    <text x="148" y="-1" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ffffff">ALVEOLAR BARRIER</text>
+  </g>
+</svg>
